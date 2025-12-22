@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class PathFinder : MonoBehaviour, IPathFinder
 {
-    [SerializeField] private List<TestPathData> testPathDatas;
+    [SerializeField] private List<TestPathData> _testPathDatas;
 
     [System.Serializable]
     public class TestPathData
@@ -49,7 +49,7 @@ public class PathFinder : MonoBehaviour, IPathFinder
     [Button]
     public void BuildPathes()
     {
-        foreach (var testPath in testPathDatas)
+        foreach (var testPath in _testPathDatas)
         {
             NavMeshPath path = GetPath(testPath.from.position, testPath.to.position, out float distance);
             testPath.pathPoints.Clear();
@@ -65,8 +65,8 @@ public class PathFinder : MonoBehaviour, IPathFinder
     {
         Color c = Gizmos.color;
 
-        if (testPathDatas == null) return;
-        foreach (var testPath in testPathDatas)
+        if (_testPathDatas == null) return;
+        foreach (var testPath in _testPathDatas)
         {
             if (testPath.from == null || testPath.to == null) continue;
 

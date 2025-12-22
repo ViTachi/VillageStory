@@ -7,129 +7,130 @@ using UnityEngine;
 
 public class MovedPlatform : Platform, IMoverController
 {
-    [SerializeField] private PhysicsMover mover;
-    [SerializeField] private bool moveOnAwake;
-    [SerializeField] private float speed;
-    [SerializeField] private Ease moveEase;
-    [SerializeField] private bool startMoveFromEnd;
-    [SerializeField] private int startPointIndex = 0;
-    [SerializeField] private bool loopMoving;
-    [SerializeField] private List<Transform> points;
+    [SerializeField] private PhysicsMover _mover;
+    [SerializeField] private bool _moveOnAwake;
+    [SerializeField] private float _speed;
+    [SerializeField] private Ease _moveEase;
+    [SerializeField] private bool _startMoveFromEnd;
+    [SerializeField] private int _startPointIndex = 0;
+    [SerializeField] private bool _loopMoving;
+    [SerializeField] private List<Transform> _points;
 
-    private int nextPointIndex;
-    private int currentPointIndex;
-    private bool direction;
-    private Tweener moveTweener = null;
-    private Coroutine moveCoroutine = null;
-    private bool isMoving = false;
-
-    private void Awake()
-    {
-        ResetState();
-        if (moveOnAwake) StartMove();
-        
-        mover.MoverController = this;
-    }
+    private int _nextPointIndex;
+    private int _currentPointIndex;
+    private bool _direction;
+    private Tweener _moveTweener = null;
+    private Coroutine _moveCoroutine = null;
+    private bool _isMoving = false;
 
     public void ResetState()
     {
-        if (points.Count == 0) return;
+        if (_points.Count == 0) return;
 
-        direction = !startMoveFromEnd;
+        _direction = !_startMoveFromEnd;
 
-        currentPointIndex = direction ? GetClampedPointIndex(startPointIndex) : GetClampedPointIndex(points.Count - startPointIndex - 1);
-        nextPointIndex = direction ? GetClampedPointIndex(startPointIndex + 1) : GetClampedPointIndex(points.Count - startPointIndex - 2);
-        mover.transform.position = goalPosition = points[currentPointIndex].position;
+        _currentPointIndex = _direction ? GetClampedPointIndex(_startPointIndex) : GetClampedPointIndex(_points.Count - _startPointIndex - 1);
+        _nextPointIndex = _direction ? GetClampedPointIndex(_startPointIndex + 1) : GetClampedPointIndex(_points.Count - _startPointIndex - 2);
+        _mover.transform.position = goalPosition = _points[_currentPointIndex].position;
     }
-
-    private int GetClampedPointIndex(int index) => Mathf.Clamp(index, 0, points.Count - 1);
 
     [Button]
     public void StartMove()
     {
         StopMove();
         
-        moveCoroutine = StartCoroutine(Move());
+        _moveCoroutine = StartCoroutine(Move());
     }
 
     public void SetDirection(bool direction)
     {
-        if(this.direction == direction) return;
+        if(this._direction == direction) return;
         ReverseDirection();
     }
 
     [Button]
     public void ReverseDirection()
     {
-        direction = !direction;
+        _direction = !_direction;
 
-        int cachedNextPointIndex = nextPointIndex;
-        nextPointIndex = currentPointIndex;
-        currentPointIndex = cachedNextPointIndex;
+        int cachedNextPointIndex = _nextPointIndex;
+        _nextPointIndex = _currentPointIndex;
+        _currentPointIndex = cachedNextPointIndex;
 
-        if(isMoving) 
+        if(_isMoving) 
             StartMove();
     }
 
-    [Button]
-    private void StopMove()
+    public void UpdateMovement(out Vector3 goalPosition, out Quaternion goalRotation, float deltaTime)
     {
-        isMoving = false;
-        moveTweener?.Kill();
-        if (moveCoroutine != null)
-            StopCoroutine(moveCoroutine);
+        goalPosition = this.goalPosition;
+        goalRotation = _mover.transform.rotation;
+    }
+
+    private void Awake()
+    {
+        ResetState();
+        if (_moveOnAwake) StartMove();
+        
+        _mover.MoverController = this;
+    }
+
+    private int GetClampedPointIndex(int index) => Mathf.Clamp(index, 0, _points.Count - 1);
+
+    [Button]
+    public void StopMove()
+    {
+        _isMoving = false;
+        _moveTweener?.Kill();
+        if (_moveCoroutine != null)
+            StopCoroutine(_moveCoroutine);
     }
 
     private Vector3 goalPosition;
 
     private IEnumerator Move()
     {
-        isMoving = true;
+        _isMoving = true;
         while (true)
         {
-            moveTweener = DOTween.To(() => mover.transform.position, (position) => { goalPosition = position; },
-                points[nextPointIndex].position, speed).SetSpeedBased().SetEase(moveEase).SetId(this);
+            _moveTweener = DOTween.To(() => _mover.transform.position, (position) => { goalPosition = position; },
+                _points[_nextPointIndex].position, _speed).SetSpeedBased().SetEase(_moveEase).SetId(this);
 
-            yield return moveTweener.WaitForCompletion();
+            yield return _moveTweener.WaitForCompletion();
 
-            if (IsLastPoint(nextPointIndex))
+            if (IsLastPoint(_nextPointIndex))
             {
-                if (loopMoving)
+                if (_loopMoving)
                     ReverseDirection();
                 else
                     StopMove();
             }
             else
             {
-                currentPointIndex = nextPointIndex;
-                nextPointIndex += direction ? 1 : -1;
+                _currentPointIndex = _nextPointIndex;
+                _nextPointIndex += _direction ? 1 : -1;
             }
         }    
     }
 
     private bool IsLastPoint(int pointIndex)
     {
-        return direction ? (pointIndex == (points.Count - 1)) : pointIndex == 0;
+        return _direction ? (pointIndex == (_points.Count - 1)) : pointIndex == 0;
     }
 
-    public void UpdateMovement(out Vector3 goalPosition, out Quaternion goalRotation, float deltaTime)
-    {
-        goalPosition = this.goalPosition;
-        goalRotation = mover.transform.rotation;
-    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (points == null) return;
+        if (_points == null) return;
 
         Color c = Gizmos.color;
         Gizmos.color = new Color(0.2f, 1f, 0.5f, 0.7f);
-        for (int i = 0; i < points.Count; i++)
+        for (int i = 0; i < _points.Count; i++)
         {
-            if (points[i] == null) continue;
+            if (_points[i] == null) continue;
 
-            Transform point = points[i].transform;
+            Transform point = _points[i].transform;
             if (point != null)
             {
                 Gizmos.DrawSphere(point.position, 0.15f);
