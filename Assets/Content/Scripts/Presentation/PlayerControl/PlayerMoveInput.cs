@@ -9,7 +9,7 @@ public class PlayerMoveInput : MonoBehaviour
     [Inject] private Interactor _interactor;
     [Inject] private ItemsCollector _itemsCollector;
     [Inject] private ItemsHolder _itemsHolder;
-    
+
 
     public void OnMove(CallbackContext callbackContext)
     {
@@ -37,8 +37,8 @@ public class PlayerMoveInput : MonoBehaviour
         }
     }
 
-     public void OnMouseMove(CallbackContext callbackContext)
-        => _fPCameraController.Rotate(callbackContext.ReadValue<Vector2>());
+    public void OnMouseMove(CallbackContext callbackContext)
+       => _fPCameraController.Rotate(callbackContext.ReadValue<Vector2>());
 
     public void OnInteract(CallbackContext callbackContext)
     {

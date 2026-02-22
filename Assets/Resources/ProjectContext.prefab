@@ -77,3 +77,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 390379605297081583, guid: 1770abc40ace6435c906ddc6c4b58e9a, type: 3}
   _gameSettings: {fileID: 11400000, guid: e9744eb7adffb4344bb994ef4f28dfcb, type: 2}
+  _uIServicePrefab: {fileID: 2352767700972828591, guid: 7cec96dc078c3e240a7f256a6b9b8aa6, type: 3}
