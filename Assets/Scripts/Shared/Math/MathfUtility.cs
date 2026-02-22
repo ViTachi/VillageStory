@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class MathfUtility
+﻿public static class MathfUtility
 {
     public static float Remap(float value, float minFrom, float maxFrom, float minTo, float maxTo)
     {

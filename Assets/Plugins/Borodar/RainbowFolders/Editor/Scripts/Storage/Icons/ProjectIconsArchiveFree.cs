@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using StorageHelper = Borodar.RainbowFolders.TexturesStorageHelper<Borodar.RainbowFolders.ProjectIcon>;
 
 namespace Borodar.RainbowFolders
 {

@@ -22,11 +22,11 @@ public class HoldableItem : MonoBehaviour, IholdableItem
 
     public void OnGrab()
     {
-        foreach(var collider in _colliders)
+        foreach (var collider in _colliders)
         {
             collider.enabled = false;
         }
-        if (_rigidbody != null) 
+        if (_rigidbody != null)
             _rigidbody.isKinematic = true;
     }
 }

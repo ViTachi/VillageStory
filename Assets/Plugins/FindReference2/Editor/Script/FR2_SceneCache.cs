@@ -14,7 +14,6 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 #endif
 #if SUPPORT_NESTED_PREFAB
-using UnityEditor.Experimental.SceneManagement;
 
 #endif
 
