@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Core.UI;
 using Cysharp.Threading.Tasks;
-using Presentation.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
 
-namespace Services
+namespace Core.Services
 {
     public class UIService : MonoBehaviour, IUIService, IInitializable
     {
@@ -20,7 +20,7 @@ namespace Services
 
         private struct ScreenData
         {
-            public GameObject ScreenInstance;
+            public UIElement Screen;
             public AsyncOperationHandle Handle;
         }
 
@@ -29,8 +29,9 @@ namespace Services
 
         }
 
-        public async UniTask ShowScreen<T, TParams, TResult>(UILayer layer, TParams parameters,
-            bool immediately, CancellationToken ct, Action<TResult> callback) where T : Screen<TParams, TResult>
+        public async UniTask<T> ShowScreen<T, TParams, TResult>(UILayer layer, TParams parameters,
+            bool immediately, CancellationToken ct, Action<TResult> callback)
+            where T : Screen<TParams, TResult>
         {
             AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(typeof(T).Name);
             await handle;
@@ -50,30 +51,35 @@ namespace Services
             }
 
             var screenInstance = Instantiate(screenPrefab, parent);
-            _screens[typeof(T)] = new ScreenData() { ScreenInstance = screenInstance, Handle = handle };
 
             if (screenInstance.TryGetComponent(out Screen<TParams, TResult> screen))
             {
+                _screens[typeof(T)] = new ScreenData() { Screen = screen, Handle = handle };
                 await screen.Show(parameters, immediately, ct, callback);
+                return screen as T;
             }
+
+            return null;
         }
 
-        public async UniTask HideScreen<T, TParams, TResult>(bool immediately, CancellationToken ct)
-            where T : Screen<TParams, TResult>
+        public async UniTask HideScreen<T>(bool immediately, CancellationToken ct)
+            where T : UIElement
         {
             if (_screens.TryGetValue(typeof(T), out ScreenData screenData))
             {
-                if (screenData.ScreenInstance.TryGetComponent(out T screen))
-                {
-                    await screen.Hide(immediately, ct);
-                    Destroy(screenData.ScreenInstance);
-                    Addressables.Release(screenData.Handle);
-                    _screens.Remove(typeof(T));
-                }
+                await screenData.Screen.Hide(immediately, ct);
+                Addressables.Release(screenData.Handle);
+                _screens.Remove(typeof(T));
             }
         }
 
+        public T GetScreen<T, TParams, TResult>() where T : Screen<TParams, TResult>
+        {
+            if (_screens.TryGetValue(typeof(T), out ScreenData screenData))
+            {
+                return screenData.Screen as T;
+            }
+            return default;
+        }
     }
-
-
 }
