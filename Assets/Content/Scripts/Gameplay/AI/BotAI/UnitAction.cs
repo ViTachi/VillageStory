@@ -47,8 +47,13 @@ namespace Gameplay.AI
             _isInProgress = false;
             OnStop?.Invoke(this);
 
+
 #if UNITY_EDITOR
-            gameObject.name = gameObject.name.Replace("(Active)", string.Empty);
+            try
+            {
+                gameObject.name = gameObject.name.Replace("(Active)", string.Empty);
+            }
+            catch (MissingReferenceException) { }
 #endif
         }
 

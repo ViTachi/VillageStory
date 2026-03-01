@@ -50,7 +50,7 @@ namespace KinematicCharacterController.Examples
 
         public void ToggleRendering()
         {
-            if(Camera.cullingMask == -1)
+            if (Camera.cullingMask == -1)
             {
                 Camera.cullingMask = UIMask;
             }

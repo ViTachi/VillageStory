@@ -1,0 +1,15 @@
+using Gameplay;
+using Zenject;
+
+namespace Core.Installers
+{
+    public class LevelSceneInstaller : MonoInstaller
+    {
+        public override void InstallBindings()
+        {
+            Container.BindInterfacesTo<PathFinder>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.BindInterfacesTo<NoiseHandler>().AsSingle().NonLazy();
+            Container.Bind<Location>().FromComponentInHierarchy().AsSingle().NonLazy();
+        }
+    }
+}

@@ -32,7 +32,7 @@ namespace Gameplay.AI
         {
             if (_isMoving)
             {
-                animator.SetFloat("Speed", _controller.CurrentSpeed);
+                if (animator != null) animator.SetFloat("Speed", _controller.CurrentSpeed);
 
                 if (targetRotation != Quaternion.identity)
                 {
@@ -105,7 +105,7 @@ namespace Gameplay.AI
         {
             _controller.Move(Vector3.zero);
             _isMoving = false;
-            animator.SetFloat("Speed", 0);
+            if (animator != null) animator.SetFloat("Speed", 0);
             stopDistance = 0;
             target = null;
         }

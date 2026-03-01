@@ -1,65 +1,56 @@
-using Sirenix.OdinInspector;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 namespace Gameplay.AI
 {
     public class RootIntention : Intention
     {
-        [Title("Intentions")]
-        [GUIColor(0.8f, 1f, 1f, 1f)]
         [SerializeField] private List<Intention> _intentions;
 
         private Intention _activeIntention = null;
 
         public Intention ActiveIntention => _activeIntention;
 
-        public override bool IsNeedToBeActivated() => true;
+        public void SetActive(bool active) => enabled = active;
 
-        public override void Initialize(Intention rootIntention = null)
+        public void Initialize()
         {
-            base.Initialize(rootIntention);
             _intentions = _intentions.OrderByDescending(x => x.Priority).ToList();
 
             foreach (var intention in _intentions)
+                intention.Initialize();
+        }
+
+        protected override async UniTask RunAsync(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
             {
-                intention.Initialize(this);
+                Intention next = _intentions
+               .Where(x => x.isActiveAndEnabled
+                           && x.Priority > (_activeIntention?.Priority ?? -1)
+                           && x.IsNeedToBeActivated())
+               .OrderByDescending(x => x.Priority)
+               .FirstOrDefault();
+
+                if (next != null)
+                    ActivateIntention(next).Forget();
+
+                await UniTask.NextFrame(token);
             }
         }
 
-        public override void Stop()
+        public async UniTask ActivateIntention(Intention intention)
         {
-            base.Stop();
-            _activeIntention?.Stop();
-            _activeIntention = null;
-        }
-
-        private void Update()
-        {
-            if (!IsRunning) return;
-
-            Intention nextIntention = _intentions
-                .Where(x => x.isActiveAndEnabled
-                && x.Priority > (_activeIntention?.Priority ?? -1)
-                && x.IsNeedToBeActivated())
-                .OrderByDescending(x => x.Priority).FirstOrDefault();
-
-            if (nextIntention != null)
-                ActivateIntention(nextIntention);
+            if (_activeIntention == intention) return;
 
             if (_activeIntention != null)
-            {
-                if (_activeIntention.IsCompleted)
-                    _activeIntention = null;
-                else
-                    _activeIntention.Run();
-            }
-        }
+                _activeIntention.Stop();
 
-        public void ActivateIntention(Intention intention)
-        {
-            _activeIntention?.Stop();
+            await UniTask.NextFrame();
+
             _activeIntention = intention;
             _activeIntention.OnStop += OnActiveIntentionStopped;
             _activeIntention.Activate();
@@ -67,8 +58,27 @@ namespace Gameplay.AI
 
         private void OnActiveIntentionStopped(Intention intention)
         {
+            if (_activeIntention == null) return;
             _activeIntention.OnStop -= OnActiveIntentionStopped;
-            _activeIntention = null;
+            if (_activeIntention == intention)
+                _activeIntention = null;
+        }
+
+        protected override void OnDisable()
+        {
+            // base.OnDisable();
+            // _activeIntention?.Stop();
+        }
+
+        public override bool IsNeedToBeActivated() => true;
+
+        public override void Stop()
+        {
+            base.Stop();
+            foreach (var intention in _intentions)
+            {
+                intention.Stop();
+            }
         }
     }
 }

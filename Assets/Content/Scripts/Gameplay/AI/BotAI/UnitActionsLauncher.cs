@@ -21,7 +21,7 @@ namespace Gameplay.AI
             if (action == null)
                 return;
 
-            StopAction<T, TParams>();
+            StopAction<T>();
 
             var cts = new CancellationTokenSource();
             _runningActions[action] = cts;
@@ -40,8 +40,7 @@ namespace Gameplay.AI
             }
         }
 
-        public void StopAction<T, TParams>()
-            where T : UnitAction<TParams>
+        public void StopAction<T>() where T : UnitActionBase
         {
             var action = _actions.OfType<T>().FirstOrDefault();
             if (action == null)

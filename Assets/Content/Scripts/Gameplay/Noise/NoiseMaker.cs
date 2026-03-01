@@ -1,15 +1,18 @@
 using UnityEngine;
 using Zenject;
 
-public class NoiseMaker : MonoBehaviour
+namespace Gameplay
 {
-    [SerializeField] private float loudness;
-
-    [Inject] private NoiseHandler noiseHandler;
-
-    private void OnCollisionEnter(Collision collision)
+    public class NoiseMaker : MonoBehaviour
     {
-        if (collision.impulse.magnitude > 2 && loudness > 0f)
-            noiseHandler.MakeNoise(transform.position, loudness);
+        [SerializeField] private float loudness;
+
+        [Inject] private INoiseHandler noiseHandler;
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.impulse.magnitude > 2 && loudness > 0f)
+                noiseHandler.MakeNoise(transform.position, loudness);
+        }
     }
 }

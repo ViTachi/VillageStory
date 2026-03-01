@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -8,50 +7,34 @@ namespace Gameplay.AI
 {
     public class WanderingIntention : Intention
     {
-        [SerializeField] private List<Transform> _points;
-
-        [Inject] private UnitActionsLauncher _actionsLauncher;
+        [SerializeField] private int index;
+        [Inject] private Location _location;
 
         public override bool IsNeedToBeActivated() => true;
 
-        private int targetPointIndex = 0;
-        private CancellationTokenSource _cts;
-
-        public override void Activate()
+        protected override async UniTask RunAsync(CancellationToken token)
         {
-            base.Activate();
+            int targetIndex = 0;
 
-            _cts = new CancellationTokenSource();
-            Wandering(_cts.Token).Forget();
-        }
-
-        private async UniTask Wandering(CancellationToken token)
-        {
             while (!token.IsCancellationRequested)
             {
-                await _actionsLauncher.StartAction<MoveAction, MoveAction.Parameters>(
-                    new MoveAction.Parameters
-                    {
-                        TargetPosition = _points[targetPointIndex].position
-                    });
+                var moveParams = new MoveAction.Parameters
+                {
+                    TargetPosition = _location.Points(index)[targetIndex].position
+                };
 
-                await _actionsLauncher.StartAction<LookAroundAction, LookAroundAction.Parameters>();
+                await _unitActionsLauncher.StartAction<MoveAction, MoveAction.Parameters>(moveParams);
+                await _unitActionsLauncher.StartAction<LookAroundAction, LookAroundAction.Parameters>(null);
 
-                targetPointIndex++;
-                if (targetPointIndex >= _points.Count)
-                    targetPointIndex = 0;
+                targetIndex = (targetIndex + 1) % _location.Points(index).Count;
             }
         }
 
         public override void Stop()
         {
             base.Stop();
-
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _cts = null;
-
-            _actionsLauncher.StopAllActions();
+            _unitActionsLauncher.StopAction<LookAroundAction>();
+            _unitActionsLauncher.StopAction<MoveAction>();
         }
     }
 }

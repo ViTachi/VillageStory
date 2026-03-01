@@ -1,5 +1,6 @@
-using Sirenix.OdinInspector;
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +10,7 @@ namespace Gameplay.AI
     {
         [SerializeField] private int _priority = 0;
 
-        [Inject] private UnitActionsLauncher _unitActionsLauncher;
+        [Inject] protected UnitActionsLauncher _unitActionsLauncher;
 
         public int Priority => _currentPriority;
         public bool IsCompleted => _isCompleted;
@@ -19,18 +20,25 @@ namespace Gameplay.AI
         public event Action<Intention> OnComplete;
         public event Action<Intention> OnStop;
 
-        protected Intention _rootIntention;
-        private int _currentPriority = 0;
+        private int _currentPriority;
         private bool _isCompleted = false;
         private bool _isRunning = false;
+
+        private CancellationTokenSource _cts;
 
         public virtual void Initialize(Intention rootIntention = null)
         {
             _currentPriority = _priority;
-            _rootIntention = rootIntention;
         }
+
         public virtual void Activate()
         {
+            if (_isRunning) return;
+
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = new CancellationTokenSource();
+
             _isCompleted = false;
             _isRunning = true;
             OnActivate?.Invoke(this);
@@ -38,23 +46,33 @@ namespace Gameplay.AI
 #if UNITY_EDITOR
             gameObject.name = $"{gameObject.name}(Active)";
 #endif
+            RunAsync(_cts.Token).Forget();
         }
+
+        public abstract bool IsNeedToBeActivated();
+        protected abstract UniTask RunAsync(CancellationToken token);
 
         public void SetPriority(int priority) => _currentPriority = priority;
         public void ResetPriority() => _currentPriority = _priority;
-        public abstract bool IsNeedToBeActivated();
-        public virtual void Run() { }
 
-        [Button]
         public virtual void Stop()
         {
+            if (!_isRunning) return;
+
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
+
             _isRunning = false;
             ResetPriority();
             OnStop?.Invoke(this);
-            _unitActionsLauncher.StopAllActions();
 
 #if UNITY_EDITOR
-            gameObject.name = gameObject.name.Replace("(Active)", string.Empty);
+            try
+            {
+                gameObject.name = gameObject.name.Replace("(Active)", string.Empty);
+            }
+            catch (MissingReferenceException) { }
 #endif
         }
 
@@ -67,8 +85,8 @@ namespace Gameplay.AI
 
         protected virtual void OnDisable()
         {
-            if (_isRunning)
-                Stop();
+            // if (_isRunning)
+            //     Stop();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Gameplay.AI
 
             foreach (var unit in lostUnits)
             {
-                if (!unit.IsHiden)
+                if (!IsUnitHiden(unit))
                     UnitLost(unit);
             }
 
@@ -43,11 +43,20 @@ namespace Gameplay.AI
             {
                 Unit unit = colliders[i].GetComponent<Unit>();
                 if (unit != null && unit != GetComponentInParent<Unit>()
-                    && IsUnitInVisionField(unit) && !IsUnitBehindTheObject(unit) && !unit.IsHiden)
+                    && IsUnitInVisionField(unit) && !IsUnitBehindTheObject(unit) && !IsUnitHiden(unit))
                 {
                     UnitDetected(unit);
                 }
             }
+        }
+
+        private bool IsUnitHiden(Unit unit)
+        {
+            if (unit is ICanHide canHide)
+            {
+                return canHide.IsHiden;
+            }
+            return false;
         }
 
         private bool IsUnitInVisionField(Unit aIUnit)

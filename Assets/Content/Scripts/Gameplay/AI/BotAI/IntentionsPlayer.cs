@@ -1,65 +1,50 @@
-using Sirenix.OdinInspector;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
+using Cysharp.Threading.Tasks;
 
 namespace Gameplay.AI
 {
-
     public class IntentionsPlayer : MonoBehaviour
     {
-        [GUIColor(0.8f, 1f, 1f, 1f)]
         [SerializeField] private List<Intention> _intentions;
 
         private Intention _activeIntention = null;
 
         public Intention ActiveIntention => _activeIntention;
 
-        public void SetActive(bool active)
-        {
-            enabled = active;
-        }
+        public void SetActive(bool active) => enabled = active;
 
-        [Inject]
         public void Initialize()
         {
             _intentions = _intentions.OrderByDescending(x => x.Priority).ToList();
 
             foreach (var intention in _intentions)
-            {
                 intention.Initialize();
-            }
-        }
-
-        private void OnDisable()
-        {
-            _activeIntention?.Stop();
         }
 
         private void Update()
         {
-            Intention nextIntention = _intentions
+            Intention next = _intentions
                 .Where(x => x.isActiveAndEnabled
-                && x.Priority > (_activeIntention?.Priority ?? -1)
-                && x.IsNeedToBeActivated())
-                .OrderByDescending(x => x.Priority).FirstOrDefault();
+                            && x.Priority > (_activeIntention?.Priority ?? -1)
+                            && x.IsNeedToBeActivated())
+                .OrderByDescending(x => x.Priority)
+                .FirstOrDefault();
 
-            if (nextIntention != null)
-                ActivateIntention(nextIntention);
-
-            if (_activeIntention != null)
-            {
-                if (_activeIntention.IsCompleted)
-                    _activeIntention = null;
-                else
-                    _activeIntention.Run();
-            }
+            if (next != null)
+                ActivateIntention(next).Forget();
         }
 
-        public void ActivateIntention(Intention intention)
+        public async UniTask ActivateIntention(Intention intention)
         {
-            _activeIntention?.Stop();
+            if (_activeIntention == intention) return;
+
+            if (_activeIntention != null)
+                _activeIntention.Stop();
+
+            await UniTask.NextFrame();
+
             _activeIntention = intention;
             _activeIntention.OnStop += OnActiveIntentionStopped;
             _activeIntention.Activate();
@@ -68,7 +53,14 @@ namespace Gameplay.AI
         private void OnActiveIntentionStopped(Intention intention)
         {
             _activeIntention.OnStop -= OnActiveIntentionStopped;
-            _activeIntention = null;
+            if (_activeIntention == intention)
+                _activeIntention = null;
+        }
+
+        private void OnDisable()
+        {
+            if (_activeIntention != null)
+                _activeIntention.Stop();
         }
     }
 }
