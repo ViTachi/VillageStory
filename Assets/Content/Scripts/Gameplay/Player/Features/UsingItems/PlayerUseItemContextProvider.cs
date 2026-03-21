@@ -6,7 +6,7 @@ namespace Gameplay
 {
     public class PlayerUseItemContextProvider : MonoBehaviour, IUseItemContextProvider
     {
-        [SerializeField] private CinemachineCamera _cinemachineCamera;
+        [Inject] private CinemachineCamera _cinemachineCamera;
         private PlayerUseItemContext _context;
 
         [Inject]

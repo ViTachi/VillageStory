@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Zenject;
 using Core.Extensions;
+using Gameplay.Units;
 
 namespace Gameplay.AI
 {

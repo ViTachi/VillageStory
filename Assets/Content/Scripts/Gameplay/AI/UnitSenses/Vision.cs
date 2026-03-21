@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Gameplay.Units;
 using UnityEngine;
 
 namespace Gameplay.AI

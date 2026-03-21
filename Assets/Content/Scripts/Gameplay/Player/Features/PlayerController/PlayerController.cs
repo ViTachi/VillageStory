@@ -17,7 +17,7 @@ namespace Gameplay
         TowardsGroundSlopeAndGravity,
     }
 
-    public class PlayerController : MonoBehaviour, ICharacterController
+    public class PlayerController : MonoBehaviour, ICharacterController, IPlayerController
     {
         [SerializeField] private KinematicCharacterMotor _motor;
 

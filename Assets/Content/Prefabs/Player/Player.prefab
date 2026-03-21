@@ -316,7 +316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb56149ebae2e4087a8a161543ba8d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cinemachineCamera: {fileID: 3695981488864394552}
 --- !u!1 &1341193229514376229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,8 +1870,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa6bd57d9fc7473b848f97f5945be6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerController: {fileID: 2104667562506372729}
-  _fPCameraController: {fileID: 4829527701835588388}
 --- !u!114 &8795005821024747182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1903,3 +1900,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5aa94b7447349138366b6c130282cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerController: {fileID: 2104667562506372729}
+  _fPCameraController: {fileID: 4829527701835588388}
+  _camera: {fileID: 2871612593010526624}
+  _raycastItemDetector: {fileID: 3746388345030379918}
+  _itemsDetector: {fileID: 4425375822553803474}
+  _interactor: {fileID: 6217095419348644995}
+  _itemsCollector: {fileID: 972196836022579625}
+  _itemsHolder: {fileID: 3038620884481708649}
+  _cinemachineCamera: {fileID: 3695981488864394552}

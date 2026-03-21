@@ -6,8 +6,8 @@ namespace Gameplay
 {
     public class PlayerMoveInput : MonoBehaviour
     {
-        [SerializeField] private PlayerController _playerController;
-        [SerializeField] private FPCameraController _fPCameraController;
+        [Inject] private IPlayerController _playerController;
+        [Inject] private IFPCameraController _fPCameraController;
         [Inject] private Interactor _interactor;
         [Inject] private ItemsCollector _itemsCollector;
         [Inject] private ItemsHolder _itemsHolder;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class FPCameraController : MonoBehaviour
+    public class FPCameraController : MonoBehaviour, IFPCameraController
     {
         [SerializeField] private Transform _cinemachineCameraTarget;
         [SerializeField] private float _interpolation = 10f;
