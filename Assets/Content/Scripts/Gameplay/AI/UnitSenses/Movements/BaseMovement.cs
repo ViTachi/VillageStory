@@ -13,7 +13,7 @@ namespace Gameplay.AI
         [SerializeField] private float rotationSpeed = 10f;
         [SerializeField] private float visualRotationSpeed = 5f;
 
-        [Inject] private IPathFinder _pathFinder;
+        [Inject] private IPathFindService _pathFinder;
 
         private NavMeshPath path;
 

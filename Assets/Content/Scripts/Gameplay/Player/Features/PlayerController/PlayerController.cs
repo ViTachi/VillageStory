@@ -123,6 +123,17 @@ namespace Gameplay
             }
         }
 
+        public void SetMoveSpeed(float moveSpeed)
+        {
+            _maxStableMoveSpeed = moveSpeed;
+            _maxAirMoveSpeed = moveSpeed;
+        }
+
+        public void SetJumpUpSpeed(float jumpUpSpeed)
+        {
+            _jumpUpSpeed = jumpUpSpeed;
+        }
+
         public void Move(Vector3 moveVector)
         {
             _moveInput = Vector3.ClampMagnitude(moveVector, 1f);

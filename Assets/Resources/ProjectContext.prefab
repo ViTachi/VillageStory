@@ -75,3 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a701faa6f9889de4db083ee73c5d6912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameConfig: {fileID: 11400000, guid: d33e2f862cf68436d9cff306056df795, type: 2}
+  cinemachineBrainPrefab: {fileID: 5284926626343256997, guid: 289b41990b31f471c80a863c43fcb3c0, type: 3}
+  eventSystem: {fileID: 390379605297081583, guid: 1770abc40ace6435c906ddc6c4b58e9a, type: 3}
+  uIServicePrefab: {fileID: 2352767700972828591, guid: 7cec96dc078c3e240a7f256a6b9b8aa6, type: 3}

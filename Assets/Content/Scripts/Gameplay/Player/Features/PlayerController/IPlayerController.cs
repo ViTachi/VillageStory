@@ -10,6 +10,8 @@ namespace Gameplay
         Vector3 MoveVector { get; }
         Vector3 Position { get; }
 
+        void SetMoveSpeed(float moveSpeed);
+        void SetJumpUpSpeed(float jumpUpSpeed);
         void AddVelocity(Vector3 velocity);
         void AfterCharacterUpdate(float deltaTime);
         void BeforeCharacterUpdate(float deltaTime);

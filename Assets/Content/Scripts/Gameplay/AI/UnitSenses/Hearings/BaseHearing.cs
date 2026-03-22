@@ -7,7 +7,7 @@ namespace Gameplay.AI
     public class BaseHearing : Hearing
     {
         [Inject] private INoiseHandler _noiseHandler;
-        [Inject] private IPathFinder _pathFinder;
+        [Inject] private IPathFindService _pathFinder;
         private NavMeshPath path;
 
         private void Awake()
