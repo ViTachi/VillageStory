@@ -53,8 +53,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1, y: 1, z: 0.1}
-  m_Center: {x: 0, y: 0, z: -0.05}
+  m_Size: {x: 1.1, y: 2, z: 0.01}
+  m_Center: {x: 0, y: 0, z: -0.04}
 --- !u!54 &5324370846954098825
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -94,13 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f60f7ee0c4947799ab03074c35d6d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _infoPoint: {fileID: 3060183807787950232}
-  _requirements: []
-  _offset: -100
-  _door: {fileID: 3393880177275336220}
-  references:
-    version: 2
-    RefIds: []
+  offset: -110
+  door: {fileID: 3393880177275336220}
 --- !u!1 &3011872466645961186
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,8 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0317c0276c152472489f9ddd4f65343c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hingeJoint: {fileID: 7942620185758686647}
-  _rb: {fileID: 1518616531710516872}
+  hingeJoint: {fileID: 7942620185758686647}
+  rb: {fileID: 1518616531710516872}
 --- !u!54 &1518616531710516872
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -380,8 +375,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1, y: 1, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0.05}
+  m_Size: {x: 1.1, y: 2, z: 0.01}
+  m_Center: {x: 0, y: 0, z: 0.04}
 --- !u!54 &6686307795294718850
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -421,13 +416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f60f7ee0c4947799ab03074c35d6d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _infoPoint: {fileID: 3060183807787950232}
-  _requirements: []
-  _offset: 100
-  _door: {fileID: 3393880177275336220}
-  references:
-    version: 2
-    RefIds: []
+  offset: 110
+  door: {fileID: 3393880177275336220}
 --- !u!1 &7887347067041947710
 GameObject:
   m_ObjectHideFlags: 0

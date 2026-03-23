@@ -26,6 +26,9 @@ namespace Player
 
             Container.BindInterfacesTo<CollectingItemsService>().AsSingle();
             Container.BindInterfacesTo<CollectingItemsViewController>().AsSingle();
+
+            Container.BindInterfacesTo<PlayerInteractService>().AsSingle();
+            Container.BindInterfacesTo<InteractionViewController>().AsSingle();
         }
 
         private void BindConfigs()

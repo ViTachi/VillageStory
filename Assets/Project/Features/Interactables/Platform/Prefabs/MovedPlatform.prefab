@@ -292,11 +292,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a07950dc7dd2d4c8b8e22e913cf1ed74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mover: {fileID: 4066800695009645642}
-  _moveOnAwake: 0
-  _speed: 2
-  _moveEase: 4
-  _startMoveFromEnd: 0
-  _startPointIndex: 0
-  _loopMoving: 1
-  _points: []
+  mover: {fileID: 4066800695009645642}
+  moveOnAwake: 1
+  speed: 2
+  moveEase: 4
+  startMoveFromEnd: 0
+  startPointIndex: 0
+  loopMoving: 1
+  points: []

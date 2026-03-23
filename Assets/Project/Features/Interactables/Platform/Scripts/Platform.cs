@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gameplay.Items
+namespace Interactables
 {
     public class Platform : MonoBehaviour
     {

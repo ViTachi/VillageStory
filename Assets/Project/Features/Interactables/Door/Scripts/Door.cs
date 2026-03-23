@@ -1,11 +1,11 @@
 using UnityEngine;
 
-namespace Gameplay.Items
+namespace Interactables
 {
     public class Door : MonoBehaviour
     {
-        [SerializeField] private HingeJoint _hingeJoint;
-        [SerializeField] private Rigidbody _rb;
+        [SerializeField] private new HingeJoint hingeJoint;
+        [SerializeField] private Rigidbody rb;
 
         private bool _isOpened = false;
 
@@ -25,10 +25,10 @@ namespace Gameplay.Items
 
         private void SetJointSpringPosition(float position)
         {
-            _hingeJoint.spring = new JointSpring()
+            hingeJoint.spring = new JointSpring()
             {
-                spring = _hingeJoint.spring.spring,
-                damper = _hingeJoint.spring.damper,
+                spring = hingeJoint.spring.spring,
+                damper = hingeJoint.spring.damper,
                 targetPosition = position
             };
         }

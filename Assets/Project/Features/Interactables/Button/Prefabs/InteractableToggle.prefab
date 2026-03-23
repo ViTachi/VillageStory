@@ -46,12 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 537253b9fe5cc403385ac44fba81c28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _on: 0
-  _invokeOnStart: 0
-  _onEnable:
+  on: 0
+  onEnable:
     m_PersistentCalls:
       m_Calls: []
-  _onDisable:
+  onDisable:
     m_PersistentCalls:
       m_Calls: []
 --- !u!135 &465977524242796744

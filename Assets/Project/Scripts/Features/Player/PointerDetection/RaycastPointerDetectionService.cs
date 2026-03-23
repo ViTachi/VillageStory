@@ -18,8 +18,8 @@ namespace Player
 
         public void Tick()
         {
-            Vector3 direction = cinemachineBrain.OutputCamera.transform.forward.normalized;
-            bool isHit = Physics.Raycast(cinemachineBrain.OutputCamera.transform.position, direction,
+            Vector3 direction = cinemachineBrain.transform.forward.normalized;
+            bool isHit = Physics.Raycast(cinemachineBrain.transform.position, direction,
                 out RaycastHit hitInfo, playerDetectionConfig.DetectDistance);
             Transform itemOnPointer = null;
             if (isHit)
@@ -27,16 +27,18 @@ namespace Player
                 itemOnPointer = hitInfo.transform;
             }
 
+
             if (itemInView != itemOnPointer)
             {
                 if (itemInView != null)
                 {
                     PointerExitItem(itemInView);
-                    itemInView = null;
                 }
-                else if (itemOnPointer != null)
+
+                itemInView = itemOnPointer;
+
+                if (itemInView != null)
                 {
-                    itemInView = itemOnPointer;
                     OnPointerEnterItem(itemInView);
                 }
             }
