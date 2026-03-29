@@ -1,5 +1,3 @@
-using System;
-using Gameplay;
 using Input;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -8,13 +6,13 @@ using static UnityEngine.InputSystem.InputAction;
 
 namespace Player
 {
-    public class PlayerMovementService : IPlayerMovementService, ITickable, IInitializable, IDisposable
+    public class PlayerMovementService : IPlayerMovementService, ITickable
     {
-        [Inject] private PlayerMovementConfig playerMovementConfig;
-        [Inject] private IPlayerController playerController;
-        [Inject] private PlayerInput playerInput;
-        [Inject] private PlayerPresenter playerPresenter;
-        [Inject] private CinemachineCamera cinemachineCamera;
+        [Inject] private PlayerMovementConfig _playerMovementConfig;
+        [Inject] private IPlayerController _playerController;
+        [Inject] private PlayerInput _playerInput;
+        [Inject] private PlayerPresenter _playerPresenter;
+        [Inject] private CinemachineCamera _cinemachineCamera;
 
         private Vector2 _currentRotation;
         private Vector2 _targetRotation;
@@ -22,65 +20,67 @@ namespace Player
 
         public void Initialize()
         {
-            playerController.SetMoveSpeed(playerMovementConfig.MoveSpeed);
-            playerController.SetJumpUpSpeed(playerMovementConfig.JumpUpSpeed);
-            cinemachineCamera.Target.TrackingTarget = playerPresenter.CameraAnchor;
+            _playerController.SetMoveSpeed(_playerMovementConfig.MoveSpeed);
+            _playerController.SetJumpUpSpeed(_playerMovementConfig.JumpUpSpeed);
+            _cinemachineCamera.Target.TrackingTarget = _playerPresenter.CameraAnchor;
 
-            playerInput.Player.Move.performed += Move;
-            playerInput.Player.Move.canceled += Move;
-            playerInput.Player.Jump.started += Jump;
-            playerInput.Player.Crouch.started += StartCrouch;
-            playerInput.Player.Crouch.canceled += CancelCrouch;
-            playerInput.Player.Look.performed += OnMouseMove;
-            playerInput.Player.Look.canceled += OnMouseMove;
+            _playerInput.Player.Move.performed += Move;
+            _playerInput.Player.Move.canceled += Move;
+            _playerInput.Player.Jump.started += Jump;
+            _playerInput.Player.Crouch.started += StartCrouch;
+            _playerInput.Player.Crouch.canceled += CancelCrouch;
+            _playerInput.Player.Look.performed += OnMouseMove;
+            _playerInput.Player.Look.canceled += OnMouseMove;
         }
 
-        public void Dispose()
+        public void Cleanup()
         {
-            playerInput.Player.Move.performed -= Move;
-            playerInput.Player.Move.canceled -= Move;
-            playerInput.Player.Jump.started -= Jump;
-            playerInput.Player.Crouch.started -= StartCrouch;
-            playerInput.Player.Crouch.canceled -= CancelCrouch;
-            playerInput.Player.Look.performed -= OnMouseMove;
-            playerInput.Player.Look.canceled -= OnMouseMove;
+            _playerInput.Player.Move.performed -= Move;
+            _playerInput.Player.Move.canceled -= Move;
+            _playerInput.Player.Jump.started -= Jump;
+            _playerInput.Player.Crouch.started -= StartCrouch;
+            _playerInput.Player.Crouch.canceled -= CancelCrouch;
+            _playerInput.Player.Look.performed -= OnMouseMove;
+            _playerInput.Player.Look.canceled -= OnMouseMove;
         }
 
         private void Move(CallbackContext callbackContext)
         {
             Vector3 inputVector = callbackContext.ReadValue<Vector2>();
-            playerController.Move(new Vector3(inputVector.x, 0f, inputVector.y));
+            _playerController.Move(new Vector3(inputVector.x, 0f, inputVector.y));
         }
 
         private void Jump(CallbackContext callbackContext)
         {
-            playerController.Jump();
+            _playerController.Jump();
         }
 
         private void StartCrouch(CallbackContext callbackContext)
         {
-            playerController.SetCrouch(true);
+            _playerController.SetCrouch(true);
         }
 
         private void CancelCrouch(CallbackContext callbackContext)
         {
-            playerController.SetCrouch(false);
+            _playerController.SetCrouch(false);
         }
 
         public void OnMouseMove(CallbackContext callbackContext)
-           => Rotate(callbackContext.ReadValue<Vector2>());
+        {
+            Rotate(callbackContext.ReadValue<Vector2>());
+        }
 
         public void Tick()
         {
             CameraRotation();
         }
 
-        public void Rotate(Vector2 delta) => _inputDelta = delta * playerMovementConfig.Sensitivity * 1.0f
+        private void Rotate(Vector2 delta) => _inputDelta = delta * _playerMovementConfig.Sensitivity * 1.0f
             * (Display.main.systemWidth / (float)Screen.currentResolution.width);
 
         private void CameraRotation()
         {
-            if (_inputDelta.sqrMagnitude < playerMovementConfig.Threshold)
+            if (_inputDelta.sqrMagnitude < _playerMovementConfig.Threshold)
                 _inputDelta = Vector2.zero;
 
             _targetRotation.x -= _inputDelta.y;
@@ -88,9 +88,9 @@ namespace Player
 
             ClampAngles();
 
-            _currentRotation = Vector2.Lerp(_currentRotation, _targetRotation, playerMovementConfig.Interpolation * Time.deltaTime);
+            _currentRotation = Vector2.Lerp(_currentRotation, _targetRotation, _playerMovementConfig.Interpolation * Time.deltaTime);
 
-            playerPresenter.CameraAnchor.localRotation = Quaternion.Euler(_currentRotation.x, _currentRotation.y, 0.0f);
+            _playerPresenter.CameraAnchor.localRotation = Quaternion.Euler(_currentRotation.x, _currentRotation.y, 0.0f);
 
             _inputDelta = Vector2.zero;
         }
@@ -118,8 +118,8 @@ namespace Player
                 _currentRotation.y -= 360f;
             }
 
-            _targetRotation.x = Mathf.Clamp(_targetRotation.x, playerMovementConfig.BottomClamp,
-            playerMovementConfig.TopClamp);
+            _targetRotation.x = Mathf.Clamp(_targetRotation.x, _playerMovementConfig.BottomClamp,
+            _playerMovementConfig.TopClamp);
         }
     }
 }

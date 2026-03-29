@@ -211,11 +211,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c243b7f952463c94bb5d382a3d60b598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 5224757364582228302}
-  playerMovementConfig: {fileID: 11400000, guid: 46c08694e5184430c93471125aee24e3, type: 2}
-  playerDetectionConfig: {fileID: 11400000, guid: 73f88ddb6dd6f43de80d8fb33b1ac097, type: 2}
-  playerPresenter: {fileID: -4560731279745027383}
-  cinemachineCameraPrefab: {fileID: 2598350242496737373, guid: 9c4a25b98bd704bd4a467001dab0acee, type: 3}
+  _playerController: {fileID: 5224757364582228302}
+  _playerMovementConfig: {fileID: 11400000, guid: 46c08694e5184430c93471125aee24e3, type: 2}
+  _playerDetectionConfig: {fileID: 11400000, guid: 73f88ddb6dd6f43de80d8fb33b1ac097, type: 2}
+  _playerPresenter: {fileID: -4560731279745027383}
+  _cinemachineCameraPrefab: {fileID: 2598350242496737373, guid: 9c4a25b98bd704bd4a467001dab0acee, type: 3}
 --- !u!114 &-4560731279745027383
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ namespace Core.Extensions
 {
     public class SceneSelectorWindow : EditorWindow
     {
-        private Vector2 scrollPos;
+        private Vector2 _scrollPos;
 
         [MenuItem("Window/Scene Selector")]
         public static void ShowWindow()
@@ -20,7 +20,7 @@ namespace Core.Extensions
             EditorGUILayout.LabelField("Scenes in Build Settings", EditorStyles.boldLabel);
             EditorGUILayout.Space();
 
-            scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
 
             var scenes = EditorBuildSettings.scenes;
 

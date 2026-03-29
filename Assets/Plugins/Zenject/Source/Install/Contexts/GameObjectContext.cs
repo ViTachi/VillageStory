@@ -20,7 +20,6 @@ namespace Zenject
 
         [SerializeField]
         [Tooltip("Note that this field is optional and can be ignored in most cases.  This is really only needed if you want to control the 'Script Execution Order' of your subcontainer.  In this case, define a new class that derives from MonoKernel, add it to this game object, then drag it into this field.  Then you can set a value for 'Script Execution Order' for this new class and this will control when all ITickable/IInitializable classes bound within this subcontainer get called.")]
-        [FormerlySerializedAs("_facade")]
         MonoKernel _kernel;
 
         DiContainer _container;

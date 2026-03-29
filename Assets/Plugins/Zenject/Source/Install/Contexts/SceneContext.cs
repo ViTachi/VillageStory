@@ -29,8 +29,6 @@ namespace Zenject
 
         public static IEnumerable<DiContainer> ParentContainers;
 
-        [FormerlySerializedAs("ParentNewObjectsUnderRoot")]
-        [FormerlySerializedAs("_parentNewObjectsUnderRoot")]
         [Tooltip("When true, objects that are created at runtime will be parented to the SceneContext")]
         [SerializeField]
         bool _parentNewObjectsUnderSceneContext;

@@ -7,20 +7,43 @@ namespace Player
 {
     public class RaycastPointerDetectionService : IPointerDetectionService, ITickable
     {
-        [Inject] private CinemachineBrain cinemachineBrain;
-        [Inject] private PlayerDetectionConfig playerDetectionConfig;
-        public Transform ItemInView => itemInView;
+        [Inject] private CinemachineBrain _cinemachineBrain;
+        [Inject] private PlayerDetectionConfig _playerDetectionConfig;
+        public Transform ItemInView => _itemInView;
 
         public event Action<Transform> OnItemDetected;
         public event Action<Transform> OnItemMissed;
 
-        private Transform itemInView = null;
+        private Transform _itemInView = null;
+        private bool _active = true;
+
+        public void Initialize()
+        {
+            SetActive(true);
+        }
+
+        public void Cleanup()
+        {
+            SetActive(false);
+        }
+
+        public void SetActive(bool active)
+        {
+            _active = active;
+            if (!active)
+            {
+                if (_itemInView != null)
+                    PointerExitItem(_itemInView);
+            }
+        }
 
         public void Tick()
         {
-            Vector3 direction = cinemachineBrain.transform.forward.normalized;
-            bool isHit = Physics.Raycast(cinemachineBrain.transform.position, direction,
-                out RaycastHit hitInfo, playerDetectionConfig.DetectDistance);
+            if (!_active) return;
+
+            Vector3 direction = _cinemachineBrain.transform.forward.normalized;
+            bool isHit = Physics.Raycast(_cinemachineBrain.transform.position, direction,
+                out RaycastHit hitInfo, _playerDetectionConfig.DetectDistance);
             Transform itemOnPointer = null;
             if (isHit)
             {
@@ -28,18 +51,18 @@ namespace Player
             }
 
 
-            if (itemInView != itemOnPointer)
+            if (_itemInView != itemOnPointer)
             {
-                if (itemInView != null)
+                if (_itemInView != null)
                 {
-                    PointerExitItem(itemInView);
+                    PointerExitItem(_itemInView);
                 }
 
-                itemInView = itemOnPointer;
+                _itemInView = itemOnPointer;
 
-                if (itemInView != null)
+                if (_itemInView != null)
                 {
-                    OnPointerEnterItem(itemInView);
+                    OnPointerEnterItem(_itemInView);
                 }
             }
         }
@@ -52,6 +75,7 @@ namespace Player
         private void PointerExitItem(Transform item)
         {
             OnItemMissed?.Invoke(item);
+            _itemInView = null;
         }
     }
 }

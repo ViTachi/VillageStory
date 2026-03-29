@@ -5,10 +5,10 @@ using Zenject;
 
 public class Entry : MonoBehaviour
 {
-    [SerializeField] private Transform playerPosition;
-    [Inject] private PlayerSpawner playerSpawner;
+    [SerializeField] private Transform _playerPosition;
+    [Inject] private PlayerSpawner _playerSpawner;
     private void Start()
     {
-        playerSpawner.SpawnPlayer(transform, playerPosition.position).Forget();
+        _playerSpawner.SpawnPlayer(transform, _playerPosition.position).Forget();
     }
 }

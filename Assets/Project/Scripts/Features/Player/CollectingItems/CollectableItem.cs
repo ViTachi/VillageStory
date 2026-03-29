@@ -4,8 +4,8 @@ namespace Player
 {
     public class CollectableItem : MonoBehaviour, ICollectableItem
     {
-        [SerializeField] private CollectableItemData itemData;
-        public CollectableItemData ItemData => itemData;
+        [SerializeField] private CollectableItemData _itemData;
+        public CollectableItemData ItemData => _itemData;
         public Transform ItemTransform => transform;
 
         public void OnCollect()

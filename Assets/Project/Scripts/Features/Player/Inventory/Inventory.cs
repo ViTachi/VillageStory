@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Player
 {
@@ -9,21 +8,21 @@ namespace Player
     {
         public event Action OnChange;
 
-        private List<InventoryItemData> items = new List<InventoryItemData>();
+        private List<InventoryItemData> _items = new List<InventoryItemData>();
 
         public bool HasItem(string id) =>
-            items.Exists(x => x.Id.Equals(id));
+            _items.Exists(x => x.Id.Equals(id));
 
         public void AddItem(InventoryItemData itemData)
         {
-            items.Add(itemData);
+            _items.Add(itemData);
             OnChange?.Invoke();
         }
 
         public void RemoveItem(string id)
         {
-            InventoryItemData item = items.FirstOrDefault(x => x.Id.Equals(id));
-            items.Remove(item);
+            InventoryItemData item = _items.FirstOrDefault(x => x.Id.Equals(id));
+            _items.Remove(item);
             OnChange?.Invoke();
         }
     }

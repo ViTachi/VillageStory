@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -23,7 +23,6 @@ namespace Borodar.RainbowFolders
         // avoid unnecessary memory allocations
         private static readonly ProjectRule RECURSIVE_RULE = new ProjectRule(KeyType.Name, string.Empty);
 
-        [FormerlySerializedAs("Folders")]
         public List<ProjectRule> Rules = new List<ProjectRule>();
 
         private readonly Dictionary<string, ProjectRule> _rulesByName = new Dictionary<string, ProjectRule>();

@@ -10,6 +10,7 @@ namespace UI.PlayerHud
     {
         [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
         [field: SerializeField] public KeyHintInfoView KeyHintInfoView { get; private set; }
+        [field: SerializeField] public NoteView NoteView { get; private set; }
 
         public override async UniTask Show(object parameters, bool immediately,
             CancellationToken ct, Action<object> callback = null)

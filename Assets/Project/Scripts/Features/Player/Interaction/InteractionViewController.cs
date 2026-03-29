@@ -8,43 +8,43 @@ namespace Player
 {
     public class InteractionViewController : IInitializable, IDisposable
     {
-        [Inject] private IPointerDetectionService pointerDetectionService;
-        [Inject] private IUIService uIService;
+        [Inject] private IPointerDetectionService _pointerDetectionService;
+        [Inject] private IUIService _uIService;
 
-        private KeyHintInfoView keyHintInfoView;
-        private Transform currentCollectableTransform;
+        private KeyHintInfoView _keyHintInfoView;
+        private Transform _currentCollectableTransform;
 
         public void Initialize()
         {
-            pointerDetectionService.OnItemDetected += ItemDetected;
-            pointerDetectionService.OnItemMissed += ItemMissed;
-            keyHintInfoView = uIService.GetScreen<PlayerHud, object, object>().KeyHintInfoView;
+            _pointerDetectionService.OnItemDetected += ItemDetected;
+            _pointerDetectionService.OnItemMissed += ItemMissed;
+            _keyHintInfoView = _uIService.GetScreen<PlayerHud, object, object>().KeyHintInfoView;
         }
 
 
         public void Dispose()
         {
-            pointerDetectionService.OnItemDetected -= ItemDetected;
-            pointerDetectionService.OnItemMissed -= ItemMissed;
+            _pointerDetectionService.OnItemDetected -= ItemDetected;
+            _pointerDetectionService.OnItemMissed -= ItemMissed;
         }
 
         private void ItemDetected(Transform item)
         {
             if (item.GetComponent<IInteractable>() != null)
             {
-                keyHintInfoView.ShowHintText("[E] - Interact");
-                currentCollectableTransform = item;
+                _keyHintInfoView.ShowHintText("[E] - Interact");
+                _currentCollectableTransform = item;
             }
         }
 
         private void ItemMissed(Transform item)
         {
-            if (currentCollectableTransform == null) return;
+            if (_currentCollectableTransform == null) return;
 
-            if (item == currentCollectableTransform)
+            if (item == _currentCollectableTransform)
             {
-                keyHintInfoView.HideHintText();
-                currentCollectableTransform = null;
+                _keyHintInfoView.HideHintText();
+                _currentCollectableTransform = null;
             }
         }
     }

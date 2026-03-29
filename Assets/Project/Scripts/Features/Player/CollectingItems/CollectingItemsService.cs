@@ -7,30 +7,30 @@ using static UnityEngine.InputSystem.InputAction;
 
 namespace Player
 {
-    public class CollectingItemsService : ICollectingItemsService, IInitializable, IDisposable
+    public class CollectingItemsService : ICollectingItemsService
     {
-        [Inject] private IPointerDetectionService pointerDetectionService;
-        [Inject] private IInventory inventory;
-        [Inject] private PlayerInput playerInput;
-        [Inject] private PlayerPresenter playerPresenter;
+        [Inject] private IPointerDetectionService _pointerDetectionService;
+        [Inject] private IInventory _inventory;
+        [Inject] private PlayerInput _playerInput;
+        [Inject] private PlayerPresenter _playerPresenter;
 
         public void Initialize()
         {
-            playerInput.Player.Interact.started += TryCollectItem;
+            _playerInput.Player.Interact.started += TryCollectItem;
         }
 
-        public void Dispose()
+        public void Cleanup()
         {
-            playerInput.Player.Interact.started -= TryCollectItem;
+            _playerInput.Player.Interact.started -= TryCollectItem;
         }
 
         private void TryCollectItem(CallbackContext callbackContext)
         {
-            if (pointerDetectionService.ItemInView == null) return;
+            if (_pointerDetectionService.ItemInView == null) return;
 
-            if (pointerDetectionService.ItemInView.TryGetComponent(out ICollectableItem collectableItem))
+            if (_pointerDetectionService.ItemInView.TryGetComponent(out ICollectableItem collectableItem))
             {
-                inventory.AddItem(new InventoryItemData(collectableItem.ItemData.Id,
+                _inventory.AddItem(new InventoryItemData(collectableItem.ItemData.Id,
                     collectableItem.ItemData.Icon));
                 CollectItem(collectableItem);
             }
@@ -40,7 +40,7 @@ namespace Player
         {
             collectableItem.OnCollect();
             DOTween.Kill(collectableItem.ItemTransform);
-            collectableItem.ItemTransform.DOMove(playerPresenter.CollectItemsPoint.position, 0.2f)
+            collectableItem.ItemTransform.DOMove(_playerPresenter.CollectItemsPoint.position, 0.2f)
             .SetId(collectableItem.ItemTransform)
             .SetLink(collectableItem.ItemTransform.gameObject)
             .SetEase(Ease.Flash)

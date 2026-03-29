@@ -294,6 +294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2be8022c029f7c46b8bd2b491af568c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainLayer: {fileID: 4267568447353759779}
-  popupLayer: {fileID: 1672680471084382514}
-  notificationLayer: {fileID: 8405684689878854616}
+  _mainLayer: {fileID: 4267568447353759779}
+  _popupLayer: {fileID: 1672680471084382514}
+  _notificationLayer: {fileID: 8405684689878854616}

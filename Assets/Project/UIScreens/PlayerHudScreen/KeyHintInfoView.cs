@@ -18,6 +18,7 @@ namespace UI.PlayerHud
         {
             DOTween.Kill(transform);
 
+            transform.localScale = Vector3.zero;
             transform.DOScale(1f, 0.15f)
                 .SetEase(Ease.OutBack)
                 .SetId(transform).SetLink(gameObject);

@@ -17,8 +17,6 @@ namespace Zenject
         [SerializeField]
         List<ScriptableObjectInstaller> _scriptableObjectInstallers = new List<ScriptableObjectInstaller>();
 
-        [FormerlySerializedAs("Installers")]
-        [FormerlySerializedAs("_installers")]
         [SerializeField]
         List<MonoInstaller> _monoInstallers = new List<MonoInstaller>();
 

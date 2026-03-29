@@ -11,10 +11,10 @@ namespace Player
 {
     public class PlayerSpawner
     {
-        [Inject] private DiContainer diContainer;
-        [Inject] private GameConfig gameConfig;
-        [Inject] private PlayerInput playerInput;
-        [Inject] private IUIService uIService;
+        [Inject] private DiContainer _diContainer;
+        [Inject] private GameConfig _gameConfig;
+        [Inject] private PlayerInput _playerInput;
+        [Inject] private IUIService _uIService;
 
         public async UniTask SpawnPlayer(Transform root, Vector3 position)
         {
@@ -22,18 +22,18 @@ namespace Player
 
             await ShowPlayerHud(cts.Token);
 
-            GameObject player = diContainer.InstantiatePrefab(gameConfig.PlayerPrefab);
+            GameObject player = _diContainer.InstantiatePrefab(_gameConfig.PlayerPrefab);
             player.transform.SetParent(root);
             player.transform.position = position;
 
             SetCursorLocked(true);
-            playerInput.Enable();
+            _playerInput.Enable();
         }
 
         private async UniTask ShowPlayerHud(CancellationToken token)
         {
 
-            await uIService.ShowScreen<PlayerHud, object, object>(
+            await _uIService.ShowScreen<PlayerHud, object, object>(
                 UILayer.Main, null, false, token, null);
         }
 

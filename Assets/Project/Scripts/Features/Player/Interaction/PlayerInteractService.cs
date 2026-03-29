@@ -5,26 +5,26 @@ using static UnityEngine.InputSystem.InputAction;
 
 namespace Player
 {
-    public class PlayerInteractService : IPlayerInteractService, IInitializable, IDisposable
+    public class PlayerInteractService : IPlayerInteractService
     {
-        [Inject] private IPointerDetectionService pointerDetectionService;
-        [Inject] private PlayerInput playerInput;
+        [Inject] private IPointerDetectionService _pointerDetectionService;
+        [Inject] private PlayerInput _playerInput;
 
         public void Initialize()
         {
-            playerInput.Player.Interact.started += TryInteract;
+            _playerInput.Player.Interact.started += TryInteract;
         }
 
-        public void Dispose()
+        public void Cleanup()
         {
-            playerInput.Player.Interact.started -= TryInteract;
+            _playerInput.Player.Interact.started -= TryInteract;
         }
 
         private void TryInteract(CallbackContext callbackContext)
         {
-            if (pointerDetectionService.ItemInView == null) return;
+            if (_pointerDetectionService.ItemInView == null) return;
 
-            if (pointerDetectionService.ItemInView.TryGetComponent(out IInteractable interactable))
+            if (_pointerDetectionService.ItemInView.TryGetComponent(out IInteractable interactable))
             {
                 interactable.Interact();
             }

@@ -11,11 +11,11 @@ namespace UI
 {
     public class UIService : MonoBehaviour, IUIService, IInitializable
     {
-        [SerializeField] private Transform mainLayer;
-        [SerializeField] private Transform popupLayer;
-        [SerializeField] private Transform notificationLayer;
+        [SerializeField] private Transform _mainLayer;
+        [SerializeField] private Transform _popupLayer;
+        [SerializeField] private Transform _notificationLayer;
 
-        private Dictionary<Type, ScreenData> screens = new Dictionary<Type, ScreenData>();
+        private Dictionary<Type, ScreenData> _screens = new Dictionary<Type, ScreenData>();
 
         private struct ScreenData
         {
@@ -35,17 +35,17 @@ namespace UI
             AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(typeof(T).Name);
             await handle;
             GameObject screenPrefab = handle.Result;
-            Transform parent = mainLayer;
+            Transform parent = _mainLayer;
             switch (layer)
             {
                 case UILayer.Main:
-                    parent = mainLayer;
+                    parent = _mainLayer;
                     break;
                 case UILayer.Notification:
-                    parent = popupLayer;
+                    parent = _popupLayer;
                     break;
                 case UILayer.Popup:
-                    parent = notificationLayer;
+                    parent = _notificationLayer;
                     break;
             }
 
@@ -53,7 +53,7 @@ namespace UI
 
             if (screenInstance.TryGetComponent(out Screen<TParams, TResult> screen))
             {
-                screens[typeof(T)] = new ScreenData() { Screen = screen, Handle = handle };
+                _screens[typeof(T)] = new ScreenData() { Screen = screen, Handle = handle };
                 await screen.Show(parameters, immediately, ct, callback);
                 return screen as T;
             }
@@ -64,17 +64,17 @@ namespace UI
         public async UniTask HideScreen<T>(bool immediately, CancellationToken ct)
             where T : UIElement
         {
-            if (screens.TryGetValue(typeof(T), out ScreenData screenData))
+            if (_screens.TryGetValue(typeof(T), out ScreenData screenData))
             {
                 await screenData.Screen.Hide(immediately, ct);
                 Addressables.Release(screenData.Handle);
-                screens.Remove(typeof(T));
+                _screens.Remove(typeof(T));
             }
         }
 
         public T GetScreen<T, TParams, TResult>() where T : Screen<TParams, TResult>
         {
-            if (screens.TryGetValue(typeof(T), out ScreenData screenData))
+            if (_screens.TryGetValue(typeof(T), out ScreenData screenData))
             {
                 return screenData.Screen as T;
             }

@@ -50,7 +50,6 @@ namespace Zenject
             }
         }
 
-        [FormerlySerializedAs("SceneName")]
         [SerializeField]
         string _decoratedContractName = null;
 
