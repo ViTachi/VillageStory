@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Player
 {
-    public class CollectingItemsViewController : IInitializable, IDisposable
+    public class CollectingItemsViewController
     {
         [Inject] private IPointerDetectionService _pointerDetectionService;
         [Inject] private IUIService _uIService;
@@ -22,7 +22,7 @@ namespace Player
         }
 
 
-        public void Dispose()
+        public void Cleanup()
         {
             _pointerDetectionService.OnItemDetected -= ItemDetected;
             _pointerDetectionService.OnItemMissed -= ItemMissed;

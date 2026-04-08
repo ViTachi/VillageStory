@@ -22,6 +22,8 @@ namespace Player
         public void RemoveItem(string id)
         {
             InventoryItemData item = _items.FirstOrDefault(x => x.Id.Equals(id));
+            if (item == null)
+                return;
             _items.Remove(item);
             OnChange?.Invoke();
         }

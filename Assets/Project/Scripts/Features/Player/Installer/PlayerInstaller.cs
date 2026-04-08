@@ -25,13 +25,13 @@ namespace Player
             Container.BindInterfacesTo<Inventory>().AsSingle();
 
             Container.BindInterfacesTo<CollectingItemsService>().AsSingle();
-            Container.BindInterfacesTo<CollectingItemsViewController>().AsSingle();
+            Container.Bind<CollectingItemsViewController>().AsSingle();
 
             Container.BindInterfacesTo<PlayerInteractService>().AsSingle();
-            Container.BindInterfacesTo<InteractionViewController>().AsSingle();
+            Container.Bind<InteractionViewController>().AsSingle();
 
             Container.BindInterfacesTo<LevelNotesService>().AsSingle();
-            Container.BindInterfacesTo<LevelNotesViewController>().AsSingle();
+            Container.Bind<LevelNotesViewController>().AsSingle();
 
             Container.Bind<PlayerStateMachine>().AsSingle().NonLazy();
         }

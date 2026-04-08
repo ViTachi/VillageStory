@@ -1,4 +1,3 @@
-using System;
 using Input;
 using Zenject;
 using static UnityEngine.InputSystem.InputAction;

@@ -1,4 +1,3 @@
-using System;
 using UI;
 using UI.PlayerHud;
 using UnityEngine;
@@ -6,7 +5,7 @@ using Zenject;
 
 namespace Player
 {
-    public class LevelNotesViewController : IInitializable, IDisposable
+    public class LevelNotesViewController
     {
         [Inject] private IPointerDetectionService _pointerDetectionService;
         [Inject] private IUIService _uIService;
@@ -22,7 +21,7 @@ namespace Player
             _keyHintInfoView = _uIService.GetScreen<PlayerHud, object, object>().KeyHintInfoView;
         }
 
-        public void Dispose()
+        public void Cleanup()
         {
             _pointerDetectionService.OnItemDetected -= ItemDetected;
             _pointerDetectionService.OnItemMissed -= ItemMissed;
