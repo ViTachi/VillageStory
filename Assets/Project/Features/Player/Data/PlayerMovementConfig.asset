@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0596e01f9a2cb419ab5ea4d549b7f44c, type: 3}
   m_Name: PlayerMovementConfig
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
+  MoveSpeed: 6
   JumpUpSpeed: 5
-  Interpolation: 14
-  Threshold: 0.01
-  Sensitivity: 0.25
+  Threshold: 0
+  Sensitivity: 0.1
   TopClamp: 80
   BottomClamp: -80

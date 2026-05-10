@@ -94,15 +94,4 @@ public class FileService : IFileService
         }
         Directory.Delete(way);
     }
-
-#if UNITY_EDITOR
-    public TextAsset ConvertStringToTextAsset(string text, string path)
-    {
-        File.WriteAllText(Application.dataPath + path + ".txt", text);
-        UnityEditor.AssetDatabase.SaveAssets();
-        UnityEditor.AssetDatabase.Refresh();
-        TextAsset textAsset = Resources.Load(path) as TextAsset;
-        return textAsset;
-    }
-#endif
 }

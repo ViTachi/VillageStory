@@ -2,7 +2,6 @@ using UnityEngine;
 
 public interface IFileService
 {
-    TextAsset ConvertStringToTextAsset(string text, string path);
     void DeleteDirectory(string way);
     void DeleteFile(string way);
     T LoadDataFromFile<T>(string way);

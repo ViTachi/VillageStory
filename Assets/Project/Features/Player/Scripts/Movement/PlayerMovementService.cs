@@ -15,7 +15,6 @@ namespace Player
         [Inject] private CinemachineCamera _cinemachineCamera;
 
         private Vector2 _currentRotation;
-        private Vector2 _targetRotation;
         private Vector2 _inputDelta = Vector2.zero;
 
         public void Initialize()
@@ -83,12 +82,11 @@ namespace Player
             if (_inputDelta.sqrMagnitude < _playerMovementConfig.Threshold)
                 _inputDelta = Vector2.zero;
 
-            _targetRotation.x -= _inputDelta.y;
-            _targetRotation.y += _inputDelta.x;
+            _currentRotation.x -= _inputDelta.y;
+            _currentRotation.y += _inputDelta.x;
 
             ClampAngles();
 
-            _currentRotation = Vector2.Lerp(_currentRotation, _targetRotation, _playerMovementConfig.Interpolation * Time.deltaTime);
 
             _playerPresenter.CameraAnchor.localRotation = Quaternion.Euler(_currentRotation.x, _currentRotation.y, 0.0f);
 
@@ -97,28 +95,28 @@ namespace Player
 
         private void ClampAngles()
         {
-            if (_targetRotation.x < -360f)
+            if (_currentRotation.x < -360f)
             {
-                _targetRotation.x += 360f;
+                _currentRotation.x += 360f;
                 _currentRotation.x += 360f;
             }
-            if (_targetRotation.y < -360f)
+            if (_currentRotation.y < -360f)
             {
-                _targetRotation.y += 360f;
+                _currentRotation.y += 360f;
                 _currentRotation.y += 360f;
             }
-            if (_targetRotation.x > 360f)
+            if (_currentRotation.x > 360f)
             {
-                _targetRotation.x -= 360f;
+                _currentRotation.x -= 360f;
                 _currentRotation.x -= 360f;
             }
-            if (_targetRotation.y > 360f)
+            if (_currentRotation.y > 360f)
             {
-                _targetRotation.y -= 360f;
+                _currentRotation.y -= 360f;
                 _currentRotation.y -= 360f;
             }
 
-            _targetRotation.x = Mathf.Clamp(_targetRotation.x, _playerMovementConfig.BottomClamp,
+            _currentRotation.x = Mathf.Clamp(_currentRotation.x, _playerMovementConfig.BottomClamp,
             _playerMovementConfig.TopClamp);
         }
     }

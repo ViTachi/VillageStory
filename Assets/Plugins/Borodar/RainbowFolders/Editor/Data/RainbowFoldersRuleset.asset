@@ -122,7 +122,7 @@ MonoBehaviour:
     IsBackgroundRecursive: 0
     IsHidden: 0
   - Type: 0
-    Key: Models
+    Key: Meshes
     Ordinal: 9
     Priority: 0
     IconType: 2080

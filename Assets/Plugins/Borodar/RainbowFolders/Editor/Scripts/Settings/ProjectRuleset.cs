@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -23,6 +23,7 @@ namespace Borodar.RainbowFolders
         // avoid unnecessary memory allocations
         private static readonly ProjectRule RECURSIVE_RULE = new ProjectRule(KeyType.Name, string.Empty);
 
+        [FormerlySerializedAs("Folders")]
         public List<ProjectRule> Rules = new List<ProjectRule>();
 
         private readonly Dictionary<string, ProjectRule> _rulesByName = new Dictionary<string, ProjectRule>();
@@ -36,7 +37,7 @@ namespace Borodar.RainbowFolders
         // Events
         //---------------------------------------------------------------------
 
-        public static Action OnRulesetChange;
+        public static Action RulesetChanged;
 
         //---------------------------------------------------------------------
         // Instance
@@ -62,7 +63,7 @@ namespace Borodar.RainbowFolders
         private void OnEnable()
         {
             SubscribeToUndo();
-            OnRulesetChange();
+            RulesetChanged?.Invoke();
         }
 
         [SuppressMessage("ReSharper", "DelegateSubtraction")]
@@ -196,7 +197,7 @@ namespace Borodar.RainbowFolders
         public void SaveSetting()
         {
             EditorUtility.SetDirty(this);
-            OnRulesetChange();
+            RulesetChanged?.Invoke();
         }
 
         //---------------------------------------------------------------------
@@ -257,14 +258,14 @@ namespace Borodar.RainbowFolders
         private static void SubscribeToRulesetChanges()
         {
             UnsubscribeFromRulesetChanges();
-            OnRulesetChange += _instance.UpdateOrdinals;
-            OnRulesetChange += _instance.UpdateDictionaries;
+            RulesetChanged += _instance.UpdateOrdinals;
+            RulesetChanged += _instance.UpdateDictionaries;
         }
 
         private static void UnsubscribeFromRulesetChanges()
         {
-            OnRulesetChange -= _instance.UpdateOrdinals;
-            OnRulesetChange -= _instance.UpdateDictionaries;
+            RulesetChanged -= _instance.UpdateOrdinals;
+            RulesetChanged -= _instance.UpdateDictionaries;
         }
 
         private void SubscribeToUndo()
