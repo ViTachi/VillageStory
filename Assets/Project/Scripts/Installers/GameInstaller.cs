@@ -28,6 +28,6 @@ public class GameInstaller : MonoInstaller
 
     private void SetupGame()
     {
-        Application.targetFrameRate = 90;
+        Application.targetFrameRate = _gameConfig.TargetFPS;
     }
 }

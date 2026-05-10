@@ -15,7 +15,7 @@ namespace Core.Extensions
 
         static void HandleHierarchyWindowItemOnGUI(int instanceID, Rect selectionRect)
         {
-            var content = EditorGUIUtility.ObjectContent(EditorUtility.InstanceIDToObject(instanceID), null);
+            var content = EditorGUIUtility.ObjectContent(EditorUtility.EntityIdToObject(instanceID), null);
 
             if (content.image != null && !IgnoreIcons.Contains(content.image.name))
             {

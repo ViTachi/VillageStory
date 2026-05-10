@@ -1,6 +1,6 @@
 using DG.Tweening;
 using KinematicCharacterController;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

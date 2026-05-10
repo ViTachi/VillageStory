@@ -1,5 +1,6 @@
 using DG.Tweening;
 using KinematicCharacterController;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,10 +65,13 @@ namespace Player
         private Tweener _crouchHeadTweener = null;
         private float _currentSpeed = 0;
 
+        public event Action<float> OnLandedEvent;
         public CharacterState CurrentCharacterState { get; private set; }
         public float CurrentSpeed => _currentSpeed;
         public Vector3 MoveVector => _moveVector;
         public Vector3 Position => transform.position;
+        public bool IsGrounded => _motor.GroundingStatus.IsStableOnGround;
+        public Vector3 Velocity => _motor.Velocity;
 
         private void Awake()
         {
@@ -466,6 +470,7 @@ namespace Player
 
         protected void OnLanded()
         {
+            OnLandedEvent?.Invoke(Mathf.Abs(_motor.PreviousVelocity.y));
         }
 
         protected void OnLeaveStableGround()

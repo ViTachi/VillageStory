@@ -1,3 +1,4 @@
+using System;
 using KinematicCharacterController;
 using UnityEngine;
 
@@ -5,10 +6,13 @@ namespace Player
 {
     public interface IPlayerController
     {
+        event Action<float> OnLandedEvent;
         CharacterState CurrentCharacterState { get; }
+        public Vector3 Velocity { get; }
         float CurrentSpeed { get; }
         Vector3 MoveVector { get; }
         Vector3 Position { get; }
+        public bool IsGrounded { get; }
 
         void SetMoveSpeed(float moveSpeed);
         void SetJumpUpSpeed(float jumpUpSpeed);
