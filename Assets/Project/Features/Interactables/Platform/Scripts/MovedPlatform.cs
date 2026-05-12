@@ -127,7 +127,7 @@ namespace Interactables
             if (points == null) return;
 
             Color c = Gizmos.color;
-            Gizmos.color = new Color(0.2f, 1f, 0.5f, 0.7f);
+            Gizmos.color = new Color(0.2f, 1f, 0.5f, 0.3f);
             for (int i = 0; i < points.Count; i++)
             {
                 if (points[i] == null) continue;
@@ -135,7 +135,9 @@ namespace Interactables
                 Transform point = points[i].transform;
                 if (point != null)
                 {
-                    Gizmos.DrawSphere(point.position, 0.15f);
+                    if (i > 0)
+                        Gizmos.DrawLine(points[i - 1].position, point.position);
+                    Gizmos.DrawWireSphere(point.position, 0.15f);
                     UnityEditor.Handles.Label(point.position + Vector3.up * 0.3f, $"{i + 1}");
                 }
             }

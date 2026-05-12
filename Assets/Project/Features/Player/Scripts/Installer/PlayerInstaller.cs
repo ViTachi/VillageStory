@@ -33,6 +33,9 @@ namespace Player
             Container.BindInterfacesTo<LevelNotesService>().AsSingle();
             Container.Bind<LevelNotesViewController>().AsSingle();
 
+            Container.BindInterfacesTo<NpcDialogueService>().AsSingle();
+            Container.Bind<NpcDialogueViewController>().AsSingle();
+
             Container.Bind<PlayerStateMachine>().AsSingle().NonLazy();
         }
 

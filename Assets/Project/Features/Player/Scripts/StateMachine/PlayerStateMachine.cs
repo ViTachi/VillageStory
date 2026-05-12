@@ -7,6 +7,7 @@ namespace Player
             Add<InitializePlayerState>();
             Add<MoveState>();
             Add<ReadNoteState>();
+            Add<NpcDialogueState>();
             Add<CleanupPlayerState>();
 
             EnterState<InitializePlayerState>();
