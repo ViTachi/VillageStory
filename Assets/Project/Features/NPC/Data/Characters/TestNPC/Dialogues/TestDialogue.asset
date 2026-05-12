@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d4d7a0706c24039ba9beee4b5df31e, type: 3}
+  m_Name: TestDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::Player.DialogueData
+  _replicas:
+  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+    _text: Hello!
+  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+    _text: My name is TestNPC
+  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+    _text: Have a nice day
+  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+    _text: Goodbye!

@@ -7,14 +7,16 @@ namespace Player
     /// </summary>
     public class NpcDialoguePartner : MonoBehaviour, IDialoguePartner
     {
+        [SerializeField] private DialogueData _dialogueData;
+
+        public DialogueData GetDialogueData() => _dialogueData;
+
         public virtual void BeginDialogue()
         {
-            // Hook dialogue system / UI here.
         }
 
         public virtual void EndDialogue()
         {
-            // Tear down dialogue UI / logic here.
         }
     }
 }

@@ -5,6 +5,8 @@ namespace Player
     /// </summary>
     public interface IDialoguePartner
     {
+        DialogueData GetDialogueData();
+
         void BeginDialogue();
 
         void EndDialogue();

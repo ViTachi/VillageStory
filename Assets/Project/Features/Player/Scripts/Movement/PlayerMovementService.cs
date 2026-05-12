@@ -34,6 +34,8 @@ namespace Player
 
         public void Cleanup()
         {
+            _playerController?.Move(Vector3.zero);
+            _playerController?.SetCrouch(false);
             _playerInput.Player.Move.performed -= Move;
             _playerInput.Player.Move.canceled -= Move;
             _playerInput.Player.Jump.started -= Jump;
@@ -74,8 +76,14 @@ namespace Player
             CameraRotation();
         }
 
-        private void Rotate(Vector2 delta) => _inputDelta = delta * _playerMovementConfig.Sensitivity * 1.0f
-            * (Display.main.systemWidth / (float)Screen.currentResolution.width);
+        private void Rotate(Vector2 delta){
+            var sensitivity = _playerMovementConfig.Sensitivity;
+            #if UNITY_EDITOR_OSX
+            sensitivity *= 3f;
+            #endif
+            _inputDelta = delta * _playerMovementConfig.Sensitivity * 1.0f
+                * (Display.main.systemWidth / (float)Screen.currentResolution.width);
+        }
 
         private void CameraRotation()
         {

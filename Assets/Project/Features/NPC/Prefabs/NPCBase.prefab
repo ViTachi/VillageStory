@@ -127,3 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f0a4c18e76942508ee9c52582c6bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.NpcDialoguePartner
+  _dialogueData: {fileID: 11400000, guid: 39ac32112b04740b3a51fc6269c32d3e, type: 2}

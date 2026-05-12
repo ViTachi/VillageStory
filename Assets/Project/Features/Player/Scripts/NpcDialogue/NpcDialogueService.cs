@@ -24,22 +24,21 @@ namespace Player
         {
             _playerHud = _uIService.GetScreen<PlayerHud, object, object>();
             _playerInput.Player.Interact.started += TryDialogueInteract;
-            _playerInput.Player.Use.started += HideDialogueFromUse;
+            _playerInput.Player.Use.started += TryAdvanceDialogue;
+            _playerInput.Player.Jump.started += TryAdvanceDialogue;
         }
 
         public void Cleanup()
         {
             _playerInput.Player.Interact.started -= TryDialogueInteract;
-            _playerInput.Player.Use.started -= HideDialogueFromUse;
+            _playerInput.Player.Use.started -= TryAdvanceDialogue;
+            _playerInput.Player.Jump.started -= TryAdvanceDialogue;
         }
 
         private void TryDialogueInteract(CallbackContext _)
         {
             if (_dialogueActive)
-            {
-                HideDialogue();
                 return;
-            }
 
             if (_pointerDetectionService.ItemInView == null) return;
 
@@ -49,9 +48,11 @@ namespace Player
             }
         }
 
-        private void HideDialogueFromUse(CallbackContext _)
+        private void TryAdvanceDialogue(CallbackContext _)
         {
-            if (_dialogueActive)
+            if (!_dialogueActive) return;
+
+            if (_playerHud.DialogueView.TryAdvance())
                 HideDialogue();
         }
 
@@ -60,8 +61,8 @@ namespace Player
             _dialogueActive = true;
             _currentPartner = partner;
             partner.BeginDialogue();
+            _playerHud.DialogueView.ShowDialogue(partner.GetDialogueData());
             _pointerDetectionService.SetActive(false);
-            _playerHud.KeyHintInfoView.ShowHintText("[E] - Close");
             OnShowDialogue?.Invoke();
         }
 
@@ -70,9 +71,9 @@ namespace Player
             if (!_dialogueActive) return;
 
             _dialogueActive = false;
+            _playerHud.DialogueView.Hide();
             _currentPartner?.EndDialogue();
             _currentPartner = null;
-            _playerHud.KeyHintInfoView.HideHintText();
             _pointerDetectionService.SetActive(true);
             OnHideDialogue?.Invoke();
         }
