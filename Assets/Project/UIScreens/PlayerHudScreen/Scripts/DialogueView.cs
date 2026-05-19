@@ -17,26 +17,19 @@ namespace UI.PlayerHud
         [SerializeField] private TMP_Text _speakerNameText;
         [SerializeField] private TMP_Text _lineText;
 
-        private DialogueData _data;
-        private int _lineIndex;
         private string _fullLineText = string.Empty;
         private bool _lineRevealComplete = true;
         private CancellationTokenSource _revealCts;
 
-        public void ShowDialogue(DialogueData data)
+        public void Show()
         {
             CancelReveal();
-
-            _data = data;
-            _lineIndex = 0;
 
             DOTween.Kill(this);
             _canvasGroup.alpha = 0f;
             transform.localScale = Vector3.one * 0.6f;
             transform.DOScale(1f, 0.2f).SetId(this).SetLink(gameObject);
             _canvasGroup.DOFade(1f, 0.15f).SetId(this).SetLink(gameObject);
-
-            ApplyCurrentLine();
         }
 
         public void Hide()
@@ -46,83 +39,58 @@ namespace UI.PlayerHud
             DOTween.Kill(this);
             transform.DOScale(0.6f, 0.12f).SetId(this).SetLink(gameObject);
             _canvasGroup.DOFade(0f, 0.12f).SetId(this).SetLink(gameObject);
-            _data = null;
         }
 
-        private void OnDestroy()
+        public void ShowLine(NPCData npc, string text)
         {
             CancelReveal();
+
+            if (_speakerNameText != null)
+            {
+                if (npc != null)
+                {
+                    _speakerNameText.text = npc.DisplayName;
+                    _speakerNameText.color = npc.NameColor;
+                }
+                else
+                {
+                    _speakerNameText.text = string.Empty;
+                }
+            }
+
+            _fullLineText = text ?? string.Empty;
+            if (_lineText != null)
+                _lineText.text = string.Empty;
+
+            if (string.IsNullOrEmpty(_fullLineText))
+            {
+                _lineRevealComplete = true;
+                return;
+            }
+
+            _lineRevealComplete = false;
+            _revealCts = new CancellationTokenSource();
+            RevealLineAsync(_revealCts.Token).Forget();
         }
 
         /// <summary>
-        /// If the line is still revealing: completes the line instantly and returns false.
-        /// If the line is fully shown: advances to the next line or returns true to close the dialogue.
+        /// If the line is still revealing: completes it instantly and returns false.
+        /// If the line is fully shown: returns true.
         /// </summary>
-        public bool TryAdvance()
+        public bool TryCompleteReveal()
         {
-            if (_data == null || _data.Actions.Count == 0)
-                return true;
-
             if (!_lineRevealComplete)
             {
                 CompleteCurrentLineInstantly();
                 return false;
             }
 
-            if (_lineIndex < _data.Actions.Count - 1)
-            {
-                _lineIndex++;
-                ApplyCurrentLine();
-                return false;
-            }
-
             return true;
         }
 
-        private void ApplyCurrentLine()
+        private void OnDestroy()
         {
             CancelReveal();
-
-            if (_data == null || _data.Actions.Count == 0 || _lineIndex < 0 || _lineIndex >= _data.Actions.Count)
-            {
-                if (_speakerNameText != null) _speakerNameText.text = string.Empty;
-                if (_lineText != null) _lineText.text = string.Empty;
-                _fullLineText = string.Empty;
-                _lineRevealComplete = true;
-                return;
-            }
-
-            var action = _data.Actions[_lineIndex];
-            if (action is DialogueReplica replica)
-            {
-                NPCData npc = replica.NpcData;
-                if (_speakerNameText != null)
-                {
-                    if (npc != null)
-                    {
-                        _speakerNameText.text = npc.DisplayName;
-                        _speakerNameText.color = npc.NameColor;
-                    }
-                    else
-                    {
-                        _speakerNameText.text = string.Empty;
-                    }
-                }
-
-                _fullLineText = replica.Text ?? string.Empty;
-                if (_lineText != null)
-                    _lineText.text = string.Empty;
-
-                if (string.IsNullOrEmpty(_fullLineText))
-                {
-                    _lineRevealComplete = true;
-                    return;
-                }
-
-                _lineRevealComplete = false;
-                _revealCts = new CancellationTokenSource();
-                RevealLineAsync(_revealCts.Token).Forget();
-            }
         }
 
         private void CompleteCurrentLineInstantly()

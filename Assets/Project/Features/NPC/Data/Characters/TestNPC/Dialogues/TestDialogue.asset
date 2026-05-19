@@ -16,6 +16,8 @@ MonoBehaviour:
   - rid: 3255009903813066829
   - rid: 3255009903813066831
   - rid: 3255009903813066830
+  - rid: 3255009903813067007
+  - rid: 3255009903813067008
   references:
     version: 2
     RefIds:
@@ -34,3 +36,34 @@ MonoBehaviour:
       data:
         <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
         <Text>k__BackingField: My name is Test NPC
+    - rid: 3255009903813067007
+      type: {class: DialogueAnswer, ns: Player, asm: Assembly-CSharp}
+      data:
+        <Branches>k__BackingField:
+        - <Text>k__BackingField: GGWP
+          <Actions>k__BackingField:
+          - rid: 3255009903813067009
+          - rid: 3255009903813067010
+        - <Text>k__BackingField: Bye
+          <Actions>k__BackingField:
+          - rid: 3255009903813067011
+    - rid: 3255009903813067008
+      type: {class: DialogueReplica, ns: Player, asm: Assembly-CSharp}
+      data:
+        <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+        <Text>k__BackingField: Back to the main path.
+    - rid: 3255009903813067009
+      type: {class: DialogueReplica, ns: Player, asm: Assembly-CSharp}
+      data:
+        <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+        <Text>k__BackingField: GGWP to you too!
+    - rid: 3255009903813067010
+      type: {class: DialogueReplica, ns: Player, asm: Assembly-CSharp}
+      data:
+        <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+        <Text>k__BackingField: Test
+    - rid: 3255009903813067011
+      type: {class: DialogueReplica, ns: Player, asm: Assembly-CSharp}
+      data:
+        <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+        <Text>k__BackingField: See you later.

@@ -26,7 +26,7 @@ namespace Player
             player.transform.SetParent(root);
             player.transform.position = position;
 
-            SetCursorLocked(true);
+            PlayerCursor.SetLockedForGameplay();
             _playerInput.Enable();
         }
 
@@ -35,12 +35,6 @@ namespace Player
 
             await _uIService.ShowScreen<PlayerHud, object, object>(
                 UILayer.Main, null, false, token, null);
-        }
-
-        private void SetCursorLocked(bool locked)
-        {
-            Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
-            Cursor.visible = locked;
         }
     }
 }
