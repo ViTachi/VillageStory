@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelConfig", menuName = "Configs/LevelConfig")]

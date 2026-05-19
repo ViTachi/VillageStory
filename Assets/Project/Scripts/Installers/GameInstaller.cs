@@ -1,3 +1,4 @@
+using GameFlow;
 using Input;
 using Player;
 using UI;
@@ -19,9 +20,14 @@ public class GameInstaller : MonoInstaller
         Container.Bind<PlayerInput>().AsSingle();
         Container.Bind<GameConfig>().FromInstance(_gameConfig).AsSingle();
         Container.Bind<PlayerSpawner>().AsSingle();
-        Container.Bind<CinemachineBrain>().FromComponentInNewPrefab(_cinemachineBrainPrefab).AsSingle();
-        Container.Bind<EventSystem>().FromComponentInNewPrefab(_eventSystem).AsSingle();
-        Container.BindInterfacesTo<UIService>().FromComponentInNewPrefab(_uIServicePrefab).AsSingle();
+        Container.Bind<CinemachineBrain>().FromComponentInNewPrefab(_cinemachineBrainPrefab)
+            .AsSingle().NonLazy();
+        Container.Bind<EventSystem>().FromComponentInNewPrefab(_eventSystem)
+            .AsSingle().NonLazy();
+        Container.BindInterfacesTo<UIService>().FromComponentInNewPrefab(_uIServicePrefab)
+            .AsSingle().NonLazy();
+        Container.BindInterfacesTo<SceneLoadService>().AsSingle();
+        Container.Bind<GameFlowStateMachine>().AsSingle();
 
         SetupGame();
     }

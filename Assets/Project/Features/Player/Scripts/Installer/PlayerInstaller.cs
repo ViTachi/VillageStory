@@ -1,4 +1,3 @@
-using Player;
 using Unity.Cinemachine;
 using UnityEngine;
 using Zenject;

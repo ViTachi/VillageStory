@@ -1,14 +1,14 @@
-using Cysharp.Threading.Tasks;
-using Player;
+using GameFlow;
 using UnityEngine;
 using Zenject;
 
 public class Entry : MonoBehaviour
 {
-    [SerializeField] private Transform _playerPosition;
-    [Inject] private PlayerSpawner _playerSpawner;
+    [Inject] private GameFlowStateMachine _gameFlowStateMachine;
+
     private void Start()
     {
-        _playerSpawner.SpawnPlayer(transform, _playerPosition.position).Forget();
+        if (SceneNames.Entry.ToSceneName() == gameObject.scene.name)
+            _gameFlowStateMachine.Initialize();
     }
 }

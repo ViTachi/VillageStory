@@ -60,7 +60,7 @@ namespace UI.PlayerHud
         /// </summary>
         public bool TryAdvance()
         {
-            if (_data == null || _data.Replicas.Count == 0)
+            if (_data == null || _data.Actions.Count == 0)
                 return true;
 
             if (!_lineRevealComplete)
@@ -69,7 +69,7 @@ namespace UI.PlayerHud
                 return false;
             }
 
-            if (_lineIndex < _data.Replicas.Count - 1)
+            if (_lineIndex < _data.Actions.Count - 1)
             {
                 _lineIndex++;
                 ApplyCurrentLine();
@@ -83,7 +83,7 @@ namespace UI.PlayerHud
         {
             CancelReveal();
 
-            if (_data == null || _data.Replicas.Count == 0 || _lineIndex < 0 || _lineIndex >= _data.Replicas.Count)
+            if (_data == null || _data.Actions.Count == 0 || _lineIndex < 0 || _lineIndex >= _data.Actions.Count)
             {
                 if (_speakerNameText != null) _speakerNameText.text = string.Empty;
                 if (_lineText != null) _lineText.text = string.Empty;
@@ -92,34 +92,37 @@ namespace UI.PlayerHud
                 return;
             }
 
-            DialogueReplica replica = _data.Replicas[_lineIndex];
-            NPCData npc = replica.NpcData;
-            if (_speakerNameText != null)
+            var action = _data.Actions[_lineIndex];
+            if (action is DialogueReplica replica)
             {
-                if (npc != null)
+                NPCData npc = replica.NpcData;
+                if (_speakerNameText != null)
                 {
-                    _speakerNameText.text = npc.DisplayName;
-                    _speakerNameText.color = npc.NameColor;
+                    if (npc != null)
+                    {
+                        _speakerNameText.text = npc.DisplayName;
+                        _speakerNameText.color = npc.NameColor;
+                    }
+                    else
+                    {
+                        _speakerNameText.text = string.Empty;
+                    }
                 }
-                else
+
+                _fullLineText = replica.Text ?? string.Empty;
+                if (_lineText != null)
+                    _lineText.text = string.Empty;
+
+                if (string.IsNullOrEmpty(_fullLineText))
                 {
-                    _speakerNameText.text = string.Empty;
+                    _lineRevealComplete = true;
+                    return;
                 }
+
+                _lineRevealComplete = false;
+                _revealCts = new CancellationTokenSource();
+                RevealLineAsync(_revealCts.Token).Forget();
             }
-
-            _fullLineText = replica.Text ?? string.Empty;
-            if (_lineText != null)
-                _lineText.text = string.Empty;
-
-            if (string.IsNullOrEmpty(_fullLineText))
-            {
-                _lineRevealComplete = true;
-                return;
-            }
-
-            _lineRevealComplete = false;
-            _revealCts = new CancellationTokenSource();
-            RevealLineAsync(_revealCts.Token).Forget();
         }
 
         private void CompleteCurrentLineInstantly()

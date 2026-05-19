@@ -12,12 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d4d7a0706c24039ba9beee4b5df31e, type: 3}
   m_Name: TestDialogue
   m_EditorClassIdentifier: Assembly-CSharp::Player.DialogueData
-  _replicas:
-  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
-    _text: Hello!
-  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
-    _text: My name is TestNPC
-  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
-    _text: Have a nice day
-  - _npcData: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
-    _text: Goodbye!
+  <Actions>k__BackingField:
+  - rid: 3255009903813066829
+  - rid: 3255009903813066831
+  - rid: 3255009903813066830
+  references:
+    version: 2
+    RefIds:
+    - rid: 3255009903813066829
+      type: {class: DialogueReplica, ns: Player, asm: Assembly-CSharp}
+      data:
+        <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+        <Text>k__BackingField: Hello!
+    - rid: 3255009903813066830
+      type: {class: DialogueReplica, ns: Player, asm: Assembly-CSharp}
+      data:
+        <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+        <Text>k__BackingField: Goodbye!
+    - rid: 3255009903813066831
+      type: {class: DialogueReplica, ns: Player, asm: Assembly-CSharp}
+      data:
+        <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
+        <Text>k__BackingField: My name is Test NPC
