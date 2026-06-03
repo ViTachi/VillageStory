@@ -20,15 +20,21 @@ namespace UI.PlayerHud
             await base.Show(parameters, immediately, ct, callback);
             KeyHintInfoView.Initialize();
             CanvasGroup.alpha = 0f;
-            await CanvasGroup.DOFade(1f, 0.2f)
-                .SetLink(gameObject).ToUniTask();
+            if (immediately)
+                CanvasGroup.alpha = 1f;
+            else
+                await CanvasGroup.DOFade(1f, 0.2f)
+                    .SetLink(gameObject).ToUniTask();
         }
 
         public override async UniTask Hide(bool immediately, CancellationToken ct)
         {
             await base.Hide(immediately, ct);
-            await CanvasGroup.DOFade(0f, 0.2f)
-                .SetLink(gameObject).ToUniTask();
+            if (immediately)
+                CanvasGroup.alpha = 0f;
+            else
+                await CanvasGroup.DOFade(0f, 0.2f)
+                    .SetLink(gameObject).ToUniTask();
         }
     }
 }

@@ -1,15 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
-    /// <summary>
-    /// Default attachable on NPC colliders; override <see cref="BeginDialogue"/> or replace with your own <see cref="IDialoguePartner"/>.
-    /// </summary>
     public class NpcDialoguePartner : MonoBehaviour, IDialoguePartner
     {
-        [SerializeField] private DialogueData _dialogueData;
+        [SerializeField] private List<NpcDialogueEntry> _dialogueEntries = new();
 
-        public DialogueData GetDialogueData() => _dialogueData;
+        [Inject] private ISaveLoadService _saveLoadService;
+
+        public DialogueData GetDialogueData()
+        {
+            foreach (NpcDialogueEntry entry in _dialogueEntries)
+            {
+                if (entry.IsAvailable(_saveLoadService.Data))
+                    return entry.Dialogue;
+            }
+
+            return null;
+        }
 
         public virtual void BeginDialogue()
         {

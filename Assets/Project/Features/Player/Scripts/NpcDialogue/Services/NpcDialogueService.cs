@@ -50,13 +50,17 @@ namespace Player
 
         private void ShowDialogue(IDialoguePartner partner)
         {
+            DialogueData dialogueData = partner.GetDialogueData();
+            if (dialogueData == null)
+                return;
+
             _dialogueActive = true;
             _currentPartner = partner;
             partner.BeginDialogue();
             _pointerDetectionService.SetActive(false);
             OnShowDialogue?.Invoke();
 
-            RunDialogueAsync(partner.GetDialogueData()).Forget();
+            RunDialogueAsync(dialogueData).Forget();
         }
 
         private async UniTaskVoid RunDialogueAsync(DialogueData data)

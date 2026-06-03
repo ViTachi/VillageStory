@@ -9,6 +9,7 @@ namespace Player
     public class PlayerMovementService : IPlayerMovementService, ITickable
     {
         [Inject] private PlayerMovementConfig _playerMovementConfig;
+        [Inject] private ISettingsService _settingsService;
         [Inject] private IPlayerController _playerController;
         [Inject] private PlayerInput _playerInput;
         [Inject] private PlayerPresenter _playerPresenter;
@@ -77,11 +78,11 @@ namespace Player
         }
 
         private void Rotate(Vector2 delta){
-            var sensitivity = _playerMovementConfig.Sensitivity;
+            float sensitivity = _settingsService.Current.MouseSensitivity * 0.01f;
             #if UNITY_EDITOR_OSX
             sensitivity *= 3f;
             #endif
-            _inputDelta = delta * _playerMovementConfig.Sensitivity * 1.0f
+            _inputDelta = delta * sensitivity
                 * (Display.main.systemWidth / (float)Screen.currentResolution.width);
         }
 

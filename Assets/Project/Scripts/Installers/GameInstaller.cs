@@ -17,6 +17,8 @@ public class GameInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.BindInterfacesTo<FileService>().AsSingle();
+        Container.BindInterfacesTo<SaveLoadService>().AsSingle().NonLazy();
+        Container.BindInterfacesTo<SettingsService>().AsSingle().NonLazy();
         Container.Bind<PlayerInput>().AsSingle();
         Container.Bind<GameConfig>().FromInstance(_gameConfig).AsSingle();
         Container.Bind<PlayerSpawner>().AsSingle();

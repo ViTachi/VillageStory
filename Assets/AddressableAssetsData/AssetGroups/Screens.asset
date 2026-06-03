@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Screens
   m_GUID: f5d1f1fb8369b47cea6bda3f92c8f3ae
   m_SerializeEntries:
+  - m_GUID: 33f7cafa65aa24becad402c06006a15f
+    m_Address: SettingsScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f0752e8df4f4c94cbec1a5b7b3d3a1f
     m_Address: BootstrapScreen
     m_ReadOnly: 0
