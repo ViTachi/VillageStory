@@ -17,7 +17,7 @@ namespace Player
             _interactionViewController.Cleanup();
             _levelNotesViewController.Cleanup();
             _npcDialogueViewController.Cleanup();
-
+            
             return base.Enter(token);
         }
     }
