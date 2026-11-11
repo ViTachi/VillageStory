@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7468643146284809875}
   - component: {fileID: 2352316652310512387}
   - component: {fileID: -4560731279745027383}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5006541269308353547}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CameraPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8532603464003216585}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CollectItemsPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8102542905756586929}
   - component: {fileID: 8826188809987215194}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CameraEffectsPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3853241828875376368}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

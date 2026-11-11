@@ -1795,6 +1795,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 225813021}
     m_Modifications:
+    - target: {fileID: 2782184169105638998, guid: 18d92902b741e4320b929e2770dd8b0f, type: 3}
+      propertyPath: _dialogueEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782184169105638998, guid: 18d92902b741e4320b929e2770dd8b0f, type: 3}
+      propertyPath: _dialogueEntries.Array.data[0]._dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 39ac32112b04740b3a51fc6269c32d3e, type: 2}
     - target: {fileID: 4429636158020378033, guid: 18d92902b741e4320b929e2770dd8b0f, type: 3}
       propertyPath: m_Name
       value: NPCBase

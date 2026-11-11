@@ -18,6 +18,7 @@ MonoBehaviour:
   - rid: 3255009903813066830
   - rid: 3255009903813067007
   - rid: 3255009903813067008
+  - rid: 3255009903813067016
   references:
     version: 2
     RefIds:
@@ -67,3 +68,7 @@ MonoBehaviour:
       data:
         <NpcData>k__BackingField: {fileID: 11400000, guid: 835803efcd04c43859e82eb43522f1a3, type: 2}
         <Text>k__BackingField: See you later.
+    - rid: 3255009903813067016
+      type: {class: DialogueScenarioEvent, ns: Player, asm: Assembly-CSharp}
+      data:
+        <ScenarioEvent>k__BackingField: {fileID: 11400000, guid: b3f17e264f96a4fa2954513c99e5c92e, type: 2}

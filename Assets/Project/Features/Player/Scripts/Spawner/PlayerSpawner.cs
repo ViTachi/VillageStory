@@ -1,5 +1,4 @@
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Input;
 using UI;
@@ -22,9 +21,9 @@ namespace Player
 
             await ShowPlayerHud(cts.Token);
 
-            GameObject player = _diContainer.InstantiatePrefab(_gameConfig.PlayerPrefab);
-            player.transform.SetParent(root);
-            player.transform.position = position;
+            GameObject player = _diContainer.InstantiatePrefab(
+                _gameConfig.PlayerPrefab,
+                position, Quaternion.identity, root);
 
             PlayerCursor.SetLockedForGameplay();
             _playerInput.Enable();
@@ -34,7 +33,7 @@ namespace Player
         {
 
             await _uIService.ShowScreen<PlayerHud, object, object>(
-                UILayer.Main, null, false, token, null);
+                UILayer.Main, null, true, token, null);
         }
     }
 }

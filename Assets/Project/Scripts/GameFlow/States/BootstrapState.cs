@@ -17,8 +17,6 @@ namespace GameFlow
 
         public override async UniTask Enter(CancellationToken token)
         {
-            Application.targetFrameRate = _gameConfig.TargetFPS;
-
             await _uiService.ShowScreen<BootstrapScreen, BootstrapScreen.Parameters, BootstrapScreen.Result>(
                 UILayer.Main,
                 new BootstrapScreen.Parameters { i = 0 },
